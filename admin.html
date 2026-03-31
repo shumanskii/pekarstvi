@@ -155,6 +155,22 @@
   .convert-status.ok { color: var(--green); }
   .convert-status.err { color: var(--red); }
   .convert-status.info { color: var(--muted); }
+  .slide-row {
+    display: grid; grid-template-columns: 80px 1fr auto; gap: 12px; align-items: center;
+    padding: 12px; border: 1.5px solid var(--border); border-radius: 8px;
+    background: var(--cream); margin-bottom: 10px;
+  }
+  .slide-thumb { width: 80px; height: 56px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border); }
+  .slide-thumb-empty { width: 80px; height: 56px; border-radius: 6px; border: 2px dashed var(--border); display:flex;align-items:center;justify-content:center;font-size:22px;background:white; }
+  .slide-fields { display: flex; flex-direction: column; gap: 6px; }
+  .slide-fields input { padding: 7px 12px; border: 1px solid var(--border); border-radius: 6px; font-family:'Nunito',sans-serif; font-size:13px; outline:none; }
+  .slide-fields input:focus { border-color: var(--forest); }
+  .slide-actions { display: flex; flex-direction: column; gap: 6px; }
+  .slide-btn { padding: 5px 10px; border-radius: 4px; border: 1px solid var(--border); background: white; font-size: 12px; cursor: pointer; transition: all 0.15s; white-space:nowrap; }
+  .slide-btn:hover { background: var(--cream); }
+  .slide-btn.del { border-color: #f0c0c0; color: var(--red); }
+  .slide-btn.del:hover { background: #fdf0f0; }
+
   .hours-section { background: white; border-radius: 10px; border: 1px solid var(--border); padding: 24px 28px; margin-bottom: 32px; }
   .hours-grid-admin { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
   .hours-row {
@@ -211,6 +227,40 @@
   <div class="admin-body">
     <!-- Stats -->
     <div class="stats-row" id="statsRow"></div>
+
+    <!-- Photos Section -->
+    <div class="hours-section" style="margin-bottom:32px;">
+      <div class="toolbar" style="margin-bottom:20px;">
+        <h2>🖼 Фотографии сайта</h2>
+        <button class="btn btn-green" onclick="savePhotos()">💾 Сохранить фото</button>
+      </div>
+
+      <!-- Hero photo -->
+      <div style="margin-bottom:28px;">
+        <div class="form-label" style="font-size:13px;font-weight:700;color:var(--dark-rye);margin-bottom:12px;">📸 Главное фото (баннер)</div>
+        <div style="display:grid;grid-template-columns:1fr auto;gap:12px;align-items:flex-start;">
+          <div>
+            <div class="gdrive-hint" style="margin-bottom:10px;">
+              <div class="gdrive-hint-title">💡 Это большое фото в самом верху сайта — слева от текста</div>
+            </div>
+            <div class="img-input-row">
+              <input class="form-input" id="heroImgInput" placeholder="Вставь ссылку на фото (Google Drive, imgbb, и т.д.)" oninput="handleAdminImg(this,'heroPreview','heroConvertBtn','heroStatus')" />
+              <button type="button" class="btn-convert" id="heroConvertBtn" onclick="convertAdminGDrive('heroImgInput','heroPreview','heroConvertBtn','heroStatus')" style="display:none;">✨ Конвертировать</button>
+            </div>
+            <div class="convert-status" id="heroStatus"></div>
+          </div>
+          <img id="heroPreview" src="" style="width:120px;height:90px;object-fit:cover;border-radius:8px;border:1px solid var(--border);display:none;" />
+        </div>
+      </div>
+
+      <!-- Gallery slides -->
+      <div>
+        <div class="form-label" style="font-size:13px;font-weight:700;color:var(--dark-rye);margin-bottom:4px;">🎠 Фотогалерея (карусель)</div>
+        <p style="font-size:12px;color:var(--muted);margin-bottom:16px;">До 8 слайдов. Можно добавить, удалить или поменять порядок.</p>
+        <div id="slidesEditor"></div>
+        <button type="button" class="btn btn-outline" style="margin-top:12px;" onclick="addSlide()">+ Добавить слайд</button>
+      </div>
+    </div>
 
     <!-- Hours Management -->
     <div class="hours-section">
@@ -385,6 +435,7 @@ function renderAll() {
   renderStats();
   renderTable();
   renderHoursAdmin();
+  renderPhotosAdmin();
 }
 
 function renderStats() {
@@ -576,6 +627,166 @@ function saveItem() {
     showToast('✅ Позиция добавлена');
   }
   saveData(); renderAll(); closeEditModal();
+}
+
+// ── PHOTOS ────────────────────────────────────────────────────
+const defaultSlides = [
+  { img:'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=1200&q=80', title:'Квасковый хлеб', caption:'Хрустящая корочка, мягкий мякиш — выпечется за 3 дня' },
+  { img:'https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=1200&q=80', title:'Квасковые синабоны', caption:'Нежное тесто на закваске с корицей и карамельным кремом' },
+  { img:'https://images.unsplash.com/photo-1567861911437-538298e4232c?w=1200&q=80', title:'Пирожки ручной работы', caption:'С мясом, капустой и яйцом, фаршем — по бабушкиным рецептам' },
+  { img:'https://images.unsplash.com/photo-1549931319-a545dcf3bc7c?w=1200&q=80', title:'Квасковые багеты', caption:'Французская традиция на чешской закваске' },
+  { img:'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=1200&q=80', title:'Наш мастер', caption:'Пекарь с душой — каждая буханка создаётся вручную' },
+];
+
+function loadPhotosData() {
+  try {
+    const hero = localStorage.getItem('zito_hero') || 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=900&q=80';
+    const slides = JSON.parse(localStorage.getItem('zito_slides') || 'null') || defaultSlides;
+    return { hero, slides };
+  } catch(e) { return { hero: '', slides: defaultSlides }; }
+}
+
+function renderPhotosAdmin() {
+  const { hero, slides } = loadPhotosData();
+  // hero
+  const heroInput = document.getElementById('heroImgInput');
+  heroInput.value = hero;
+  const heroPreview = document.getElementById('heroPreview');
+  heroPreview.src = hero; heroPreview.style.display = hero ? 'block' : 'none';
+
+  // slides
+  renderSlidesEditor(slides);
+}
+
+let slidesData = [];
+
+function renderSlidesEditor(slides) {
+  slidesData = slides.map(s => ({...s}));
+  rebuildSlidesUI();
+}
+
+function rebuildSlidesUI() {
+  const container = document.getElementById('slidesEditor');
+  container.innerHTML = '';
+  slidesData.forEach((s, i) => {
+    const row = document.createElement('div');
+    row.className = 'slide-row';
+    row.id = `srow-${i}`;
+    row.innerHTML = `
+      ${s.img ? `<img class="slide-thumb" src="${s.img}" onerror="this.style.display='none'" />` : `<div class="slide-thumb-empty">🖼</div>`}
+      <div class="slide-fields">
+        <div style="display:flex;gap:6px;align-items:center;">
+          <input id="simg-${i}" placeholder="Ссылка на фото..." value="${s.img||''}" oninput="handleSlideImg(${i},this)" style="flex:1;" />
+          <button type="button" class="slide-btn" id="sconv-${i}" onclick="convertSlideImg(${i})" style="display:${s.img&&s.img.includes('drive.google.com/file')? 'inline-block':'none'}">✨</button>
+        </div>
+        <input id="stitle-${i}" placeholder="Заголовок слайда" value="${s.title||''}" oninput="slidesData[${i}].title=this.value" />
+        <input id="scap-${i}" placeholder="Подпись (необязательно)" value="${s.caption||''}" oninput="slidesData[${i}].caption=this.value" />
+      </div>
+      <div class="slide-actions">
+        ${i > 0 ? `<button class="slide-btn" onclick="moveSlide(${i},-1)">↑</button>` : '<span></span>'}
+        ${i < slidesData.length-1 ? `<button class="slide-btn" onclick="moveSlide(${i},1)">↓</button>` : '<span></span>'}
+        <button class="slide-btn del" onclick="deleteSlide(${i})">🗑</button>
+      </div>`;
+    container.appendChild(row);
+  });
+}
+
+function handleSlideImg(i, inp) {
+  const val = inp.value.trim();
+  slidesData[i].img = val;
+  const convBtn = document.getElementById(`sconv-${i}`);
+  convBtn.style.display = val.includes('drive.google.com') ? 'inline-block' : 'none';
+  // update thumb
+  const row = document.getElementById(`srow-${i}`);
+  let thumb = row.querySelector('.slide-thumb,.slide-thumb-empty');
+  if (val && !val.includes('drive.google.com')) {
+    if (thumb.classList.contains('slide-thumb-empty')) {
+      thumb.outerHTML = `<img class="slide-thumb" src="${val}" onerror="this.style.display='none'" />`;
+    } else { thumb.src = val; }
+  }
+}
+
+function convertSlideImg(i) {
+  const inp = document.getElementById(`simg-${i}`);
+  const url = inp.value.trim();
+  const patterns = [/\/file\/d\/([a-zA-Z0-9_-]+)/, /id=([a-zA-Z0-9_-]+)/, /\/d\/([a-zA-Z0-9_-]+)/];
+  let fileId = null;
+  for (const p of patterns) { const m = url.match(p); if (m) { fileId = m[1]; break; } }
+  if (!fileId) { showToast('❌ Не удалось распознать ссылку Google Drive'); return; }
+  const direct = `https://drive.google.com/uc?export=view&id=${fileId}`;
+  inp.value = direct;
+  slidesData[i].img = direct;
+  document.getElementById(`sconv-${i}`).style.display = 'none';
+  const row = document.getElementById(`srow-${i}`);
+  let thumb = row.querySelector('.slide-thumb,.slide-thumb-empty');
+  thumb.outerHTML = `<img class="slide-thumb" src="${direct}" />`;
+  showToast('✅ Ссылка конвертирована');
+}
+
+function moveSlide(i, dir) {
+  const j = i + dir;
+  if (j < 0 || j >= slidesData.length) return;
+  [slidesData[i], slidesData[j]] = [slidesData[j], slidesData[i]];
+  rebuildSlidesUI();
+}
+
+function deleteSlide(i) {
+  if (slidesData.length <= 1) { showToast('❌ Должен быть хотя бы один слайд'); return; }
+  if (!confirm(`Удалить слайд «${slidesData[i].title || i+1}»?`)) return;
+  slidesData.splice(i, 1);
+  rebuildSlidesUI();
+}
+
+function addSlide() {
+  if (slidesData.length >= 8) { showToast('Максимум 8 слайдов'); return; }
+  slidesData.push({ img:'', title:'', caption:'' });
+  rebuildSlidesUI();
+  setTimeout(() => document.getElementById(`simg-${slidesData.length-1}`).focus(), 50);
+}
+
+function savePhotos() {
+  // hero
+  const hero = document.getElementById('heroImgInput').value.trim();
+  if (hero) localStorage.setItem('zito_hero', hero);
+
+  // slides — filter out empty ones
+  const toSave = slidesData.filter(s => s.img || s.title);
+  if (toSave.length === 0) { showToast('❌ Добавь хотя бы один слайд с фото'); return; }
+  localStorage.setItem('zito_slides', JSON.stringify(toSave));
+  showToast('✅ Фотографии сохранены! Сайт обновится автоматически.');
+}
+
+// Generic gdrive helpers for hero field
+function handleAdminImg(inp, previewId, btnId, statusId) {
+  const val = inp.value.trim();
+  const btn = document.getElementById(btnId);
+  const status = document.getElementById(statusId);
+  const preview = document.getElementById(previewId);
+  if (!val) { btn.style.display='none'; status.textContent=''; preview.style.display='none'; return; }
+  if (val.includes('drive.google.com')) {
+    btn.style.display='inline-block';
+    status.className='convert-status info'; status.textContent='⬆ Нажми «Конвертировать»';
+    preview.style.display='none';
+  } else {
+    btn.style.display='none';
+    status.className='convert-status ok'; status.textContent='✅ Готово';
+    preview.src=val; preview.style.display='block';
+  }
+}
+
+function convertAdminGDrive(inputId, previewId, btnId, statusId) {
+  const inp = document.getElementById(inputId);
+  const url = inp.value.trim();
+  const patterns = [/\/file\/d\/([a-zA-Z0-9_-]+)/, /id=([a-zA-Z0-9_-]+)/, /\/d\/([a-zA-Z0-9_-]+)/];
+  let fileId = null;
+  for (const p of patterns) { const m = url.match(p); if (m) { fileId = m[1]; break; } }
+  if (!fileId) { document.getElementById(statusId).className='convert-status err'; document.getElementById(statusId).textContent='❌ Не удалось распознать ссылку'; return; }
+  const direct = `https://drive.google.com/uc?export=view&id=${fileId}`;
+  inp.value = direct;
+  document.getElementById(btnId).style.display='none';
+  document.getElementById(statusId).className='convert-status ok'; document.getElementById(statusId).textContent='✅ Конвертировано!';
+  const preview = document.getElementById(previewId);
+  preview.src=direct; preview.style.display='block';
 }
 
 // ── HOURS ─────────────────────────────────────────────────────
