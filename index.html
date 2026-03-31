@@ -238,6 +238,19 @@
   }
   .order-bar-btn:hover { background: var(--cream); }
 
+  .date-tabs { display: flex; gap: 10px; flex-wrap: wrap; }
+  .date-tab {
+    flex: 1; min-width: 120px; padding: 12px 10px; border: 1.5px solid var(--border);
+    border-radius: 8px; text-align: center; cursor: pointer;
+    background: white; transition: all 0.15s;
+  }
+  .date-tab:hover { border-color: var(--forest); }
+  .date-tab.selected { background: var(--forest); color: white; border-color: var(--forest); }
+  .date-tab .tab-day { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; opacity: 0.7; margin-bottom: 2px; }
+  .date-tab .tab-date { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; }
+  .date-tab .tab-weekday { font-size: 12px; margin-top: 2px; opacity: 0.8; }
+  .date-tab.selected .tab-day, .date-tab.selected .tab-weekday { opacity: 0.85; }
+
   /* MAP SECTION */
   .map-section {
     background: var(--cream);
@@ -519,11 +532,7 @@
     </div>
     <div class="address-block">
       <h3>⏰ Часы работы</h3>
-      <div class="hours-grid">
-        <span class="day">Пн — Пт</span><span class="time">7:00 — 19:00</span>
-        <span class="day">Суббота</span><span class="time">8:00 — 18:00</span>
-        <span class="day">Воскресенье</span><span class="time">9:00 — 15:00</span>
-      </div>
+      <div class="hours-grid" id="hoursDisplay"></div>
     </div>
     <div class="address-block">
       <h3>📞 Контакты</h3>
@@ -573,10 +582,17 @@
         </div>
       </div>
 
+      <!-- Pickup date -->
+      <div class="form-group">
+        <label class="form-label">Дата самовывоза *</label>
+        <div class="date-tabs" id="dateTabs"></div>
+      </div>
+
       <!-- Pickup time -->
       <div class="form-group">
         <label class="form-label">Время самовывоза *</label>
         <div class="time-slots" id="timeSlots"></div>
+        <div id="closedMsg" style="display:none;font-size:13px;color:#c0392b;margin-top:8px;">😔 В этот день пекарня не работает</div>
       </div>
 
       <!-- Comment -->
@@ -707,25 +723,98 @@ function updateOrderBar() {
 }
 
 // ── ORDER FORM ────────────────────────────────────────────────
-const pickupTimes = ['9:00','9:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00'];
-let selectedTime = '';
+const DAYS_RU = ['Воскресенье','Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'];
+const DAYS_SHORT = ['вс','пн','вт','ср','чт','пт','сб'];
+const MONTHS_RU = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
 
-function buildTimeSlots() {
+// Default hours (overridden by localStorage from admin)
+const defaultHours = {
+  1: { open: '07:00', close: '19:00' }, // пн
+  2: { open: '07:00', close: '19:00' },
+  3: { open: '07:00', close: '19:00' },
+  4: { open: '07:00', close: '19:00' },
+  5: { open: '07:00', close: '19:00' },
+  6: { open: '08:00', close: '18:00' }, // сб
+  0: { open: '09:00', close: '15:00' }, // вс
+};
+
+function getHours() {
+  try {
+    const saved = localStorage.getItem('zito_hours');
+    return saved ? JSON.parse(saved) : defaultHours;
+  } catch(e) { return defaultHours; }
+}
+
+function timeToMins(t) { const [h,m] = t.split(':').map(Number); return h*60+m; }
+
+function buildTimeSlots(dateObj, isToday) {
   const container = document.getElementById('timeSlots');
-  const now = new Date();
-  const nowMins = now.getHours() * 60 + now.getMinutes() + 45; // min 45 min ahead
+  const closedMsg = document.getElementById('closedMsg');
   container.innerHTML = '';
-  pickupTimes.forEach(t => {
-    const [h,m] = t.split(':').map(Number);
-    const slotMins = h * 60 + m;
-    const past = slotMins < nowMins;
+  selectedTime = '';
+
+  const dow = dateObj.getDay();
+  const hours = getHours();
+  const dayH = hours[dow];
+
+  if (!dayH || dayH.closed) {
+    closedMsg.style.display = 'block';
+    container.style.display = 'none';
+    return;
+  }
+  closedMsg.style.display = 'none';
+  container.style.display = 'grid';
+
+  const openMins = timeToMins(dayH.open);
+  const closeMins = timeToMins(dayH.close);
+  const now = new Date();
+  const nowMins = isToday ? (now.getHours()*60 + now.getMinutes() + 45) : 0;
+
+  // Generate slots every 30 min within working hours
+  for (let m = openMins; m < closeMins; m += 30) {
+    const h = Math.floor(m/60);
+    const min = m%60;
+    const label = `${String(h).padStart(2,'0')}:${String(min).padStart(2,'0')}`;
+    const past = m < nowMins;
     const btn = document.createElement('button');
     btn.className = 'time-slot' + (past ? ' disabled' : '');
-    btn.textContent = t;
+    btn.textContent = label;
     btn.type = 'button';
-    if (!past) btn.onclick = () => selectTime(t, btn);
+    if (!past) btn.onclick = () => selectTime(label, btn);
     container.appendChild(btn);
+  }
+}
+
+let selectedDate = null;
+let selectedTime = '';
+
+function buildDateTabs() {
+  const container = document.getElementById('dateTabs');
+  container.innerHTML = '';
+  const today = new Date();
+  const tomorrow = new Date(today); tomorrow.setDate(today.getDate()+1);
+  const dayAfter = new Date(today); dayAfter.setDate(today.getDate()+2);
+  const dates = [today, tomorrow, dayAfter];
+  const labels = ['Сегодня','Завтра','Послезавтра'];
+
+  dates.forEach((d, i) => {
+    const tab = document.createElement('div');
+    tab.className = 'date-tab' + (i===0 ? ' selected' : '');
+    tab.innerHTML = `
+      <div class="tab-day">${labels[i]}</div>
+      <div class="tab-date">${d.getDate()} ${MONTHS_RU[d.getMonth()]}</div>
+      <div class="tab-weekday">${DAYS_RU[d.getDay()]}</div>`;
+    tab.onclick = () => {
+      document.querySelectorAll('.date-tab').forEach(t => t.classList.remove('selected'));
+      tab.classList.add('selected');
+      selectedDate = d;
+      buildTimeSlots(d, i===0);
+    };
+    container.appendChild(tab);
   });
+
+  selectedDate = today;
+  buildTimeSlots(today, true);
 }
 
 function selectTime(t, btn) {
@@ -737,7 +826,6 @@ function selectTime(t, btn) {
 function formatPhone(inp) {
   let v = inp.value.replace(/\D/g,'');
   if (v.length > 9) v = v.slice(0,9);
-  // format: 606 123 456
   let fmt = '';
   for (let i=0; i<v.length; i++) {
     if (i===3||i===6) fmt += ' ';
@@ -749,10 +837,8 @@ function formatPhone(inp) {
 function openOrderForm() {
   const entries = Object.entries(cart);
   if (!entries.length) return;
-  // build summary
   const list = document.getElementById('formSummaryList');
-  let total = 0;
-  let html = '';
+  let total = 0, html = '';
   entries.forEach(([id,q]) => {
     const item = menu.find(i=>i.id==id);
     const sub = item.price * q;
@@ -761,7 +847,7 @@ function openOrderForm() {
   });
   html += `<div class="order-summary-item"><span>Итого</span><span>${total} Kč</span></div>`;
   list.innerHTML = html;
-  buildTimeSlots();
+  buildDateTabs();
   selectedTime = '';
   document.getElementById('orderFormOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -788,11 +874,15 @@ function submitOrder() {
   if (!selectedTime) { alert('Пожалуйста, выберите время самовывоза'); valid = false; }
   if (!valid) return;
 
+  const d = selectedDate;
+  const dateStr = `${d.getDate()} ${MONTHS_RU[d.getMonth()]} (${DAYS_SHORT[d.getDay()]})`;
+
   const entries = Object.entries(cart);
   let msg = `🌾 *Заказ из ŽITO pekárna*\n\n`;
   msg += `👤 *${name} ${surname}*\n`;
   msg += `📞 +420 ${document.getElementById('fieldPhone').value}\n`;
-  msg += `⏰ Самовывоз: *${selectedTime}*\n\n`;
+  msg += `📅 Дата: *${dateStr}*\n`;
+  msg += `⏰ Время: *${selectedTime}*\n\n`;
   let total = 0;
   entries.forEach(([id,q]) => {
     const item = menu.find(i=>i.id==id);
@@ -844,7 +934,31 @@ function openModal(key) {
 }
 function closeModal() { document.getElementById('modal').classList.remove('open'); }
 
+function renderHoursDisplay() {
+  const hours = getHours();
+  const dayNames = {1:'Понедельник',2:'Вторник',3:'Среда',4:'Четверг',5:'Пятница',6:'Суббота',0:'Воскресенье'};
+  const order = [1,2,3,4,5,6,0];
+  let html = '';
+  // Group consecutive days with same hours
+  let groups = [];
+  let cur = null;
+  order.forEach(dow => {
+    const h = hours[dow];
+    const val = h && !h.closed ? `${h.open} — ${h.close}` : 'Закрыто';
+    if (cur && cur.val === val) { cur.days.push(dow); }
+    else { cur = {days:[dow], val}; groups.push(cur); }
+  });
+  groups.forEach(g => {
+    const names = g.days.map(d => d===1||d===2||d===3||d===4||d===5 ? ['Пн','Вт','Ср','Чт','Пт'][d-1] : d===6?'Сб':'Вс');
+    const label = names.length > 1 ? `${names[0]} — ${names[names.length-1]}` : names[0];
+    html += `<span class="day">${label}</span><span class="time">${g.val}</span>`;
+  });
+  const el = document.getElementById('hoursDisplay');
+  if (el) el.innerHTML = html;
+}
+
 buildMenu();
+renderHoursDisplay();
 </script>
 </body>
 </html>
