@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ŽITO — Квасковая пекарня · Praha</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F7F2E8;
+    --warm-white: #FDF9F3;
+    --rye: #8B6914;
+    --dark-rye: #5C4209;
+    --crust: #C4892A;
+    --sourdough: #D4A843;
+    --forest: #3D5A3E;
+    --dark-forest: #2A3D2B;
+    --charcoal: #2C2416;
+    --muted: #8A7B65;
+    --border: #E0D5C0;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Nunito', sans-serif; background: var(--warm-white); color: var(--charcoal); overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 48px;
+    background: rgba(247,242,232,0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo {
+    display: flex; align-items: center; gap: 12px; text-decoration: none;
+  }
+  .logo-icon {
+    width: 44px; height: 44px;
+    background: var(--forest);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+  }
+  .logo-text { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--dark-rye); letter-spacing: 2px; }
+  .logo-sub { font-size: 10px; color: var(--muted); letter-spacing: 3px; text-transform: uppercase; }
+  nav ul { display: flex; gap: 32px; list-style: none; }
+  nav ul a { text-decoration: none; color: var(--charcoal); font-size: 13px; letter-spacing: 1px; text-transform: uppercase; font-weight: 600; transition: color 0.2s; }
+  nav ul a:hover { color: var(--forest); }
+  .nav-cta {
+    background: var(--forest); color: white; border: none; padding: 10px 24px;
+    border-radius: 4px; font-family: 'Nunito', sans-serif; font-size: 13px;
+    font-weight: 700; letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--dark-forest); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    padding-top: 76px;
+  }
+  .hero-image-side {
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-image-side img {
+    width: 100%; height: 100%; object-fit: cover;
+    filter: brightness(0.85) saturate(0.9);
+  }
+  .hero-image-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to right, transparent 60%, var(--warm-white));
+  }
+  .hero-content {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 80px 64px 80px 48px;
+    position: relative;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--cream); border: 1px solid var(--border);
+    padding: 6px 16px; border-radius: 20px;
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--forest); font-weight: 700; width: fit-content; margin-bottom: 28px;
+  }
+  .hero-tag::before { content: '●'; font-size: 8px; }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 4vw, 58px);
+    font-weight: 900; line-height: 1.1;
+    color: var(--dark-rye); margin-bottom: 12px;
+  }
+  .hero h1 em { font-style: italic; color: var(--forest); }
+  .hero-subtitle {
+    font-family: 'Playfair Display', serif; font-style: italic;
+    font-size: 18px; color: var(--muted); margin-bottom: 24px; line-height: 1.5;
+  }
+  .hero-desc { font-size: 15px; color: var(--charcoal); line-height: 1.8; margin-bottom: 40px; max-width: 420px; }
+  .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--forest); color: white; padding: 16px 36px;
+    border-radius: 4px; text-decoration: none; font-weight: 700;
+    font-size: 14px; letter-spacing: 1px; text-transform: uppercase;
+    transition: all 0.2s; border: 2px solid var(--forest);
+  }
+  .btn-primary:hover { background: var(--dark-forest); border-color: var(--dark-forest); }
+  .btn-outline {
+    color: var(--dark-rye); padding: 16px 36px;
+    border-radius: 4px; text-decoration: none; font-weight: 700;
+    font-size: 14px; letter-spacing: 1px; text-transform: uppercase;
+    border: 2px solid var(--border); transition: all 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--rye); color: var(--rye); }
+  .hero-badges {
+    display: flex; gap: 32px; margin-top: 48px;
+    padding-top: 32px; border-top: 1px solid var(--border);
+  }
+  .hero-badge { text-align: center; }
+  .hero-badge strong { display: block; font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 900; color: var(--dark-rye); }
+  .hero-badge span { font-size: 11px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+
+  /* ABOUT STRIP */
+  .about-strip {
+    background: var(--forest); color: white;
+    padding: 32px 48px;
+    display: flex; align-items: center; justify-content: center; gap: 64px;
+    flex-wrap: wrap;
+  }
+  .strip-item { display: flex; align-items: center; gap: 14px; }
+  .strip-icon { font-size: 28px; }
+  .strip-text strong { display: block; font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; }
+  .strip-text span { font-size: 12px; opacity: 0.75; letter-spacing: 1px; }
+
+  /* SECTION WRAPPER */
+  section { padding: 96px 48px; }
+  .section-tag {
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--forest); font-weight: 700; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-tag::before { content: ''; width: 32px; height: 2px; background: var(--sourdough); display: inline-block; }
+  h2.section-title {
+    font-family: 'Playfair Display', serif; font-size: clamp(28px, 3vw, 46px);
+    font-weight: 900; color: var(--dark-rye); line-height: 1.15; margin-bottom: 16px;
+  }
+  h2.section-title em { font-style: italic; color: var(--forest); }
+  .section-desc { font-size: 16px; color: var(--muted); max-width: 560px; line-height: 1.8; margin-bottom: 56px; }
+
+  /* CAROUSEL */
+  .carousel-section { background: var(--cream); }
+  .carousel-wrap { position: relative; overflow: hidden; border-radius: 8px; }
+  .carousel-track { display: flex; transition: transform 0.5s ease; }
+  .carousel-slide {
+    min-width: 100%; height: 480px; position: relative; overflow: hidden;
+  }
+  .carousel-slide img { width: 100%; height: 100%; object-fit: cover; }
+  .slide-caption {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 32px 40px;
+    background: linear-gradient(to top, rgba(44,36,22,0.85), transparent);
+    color: white;
+  }
+  .slide-caption h3 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+  .slide-caption p { font-size: 13px; opacity: 0.8; }
+  .carousel-nav {
+    display: flex; gap: 12px; justify-content: center; margin-top: 24px;
+  }
+  .carousel-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--border); cursor: pointer; transition: background 0.2s;
+    border: none;
+  }
+  .carousel-dot.active { background: var(--forest); }
+  .carousel-arrows {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 100%; display: flex; justify-content: space-between; padding: 0 16px; pointer-events: none;
+  }
+  .carousel-arrow {
+    pointer-events: all; width: 44px; height: 44px;
+    background: rgba(247,242,232,0.9); border: 1px solid var(--border);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 18px; color: var(--dark-rye);
+    transition: all 0.2s;
+  }
+  .carousel-arrow:hover { background: white; }
+
+  /* MENU / ORDER */
+  .menu-section { background: var(--warm-white); }
+  .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+  .menu-card {
+    background: white; border-radius: 8px; overflow: hidden;
+    border: 1px solid var(--border); transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .menu-card:hover { box-shadow: 0 8px 32px rgba(44,36,22,0.12); transform: translateY(-2px); }
+  .menu-card-img { width: 100%; height: 160px; object-fit: cover; display: block; }
+  .menu-card-body { padding: 16px; }
+  .menu-card-cat { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--forest); font-weight: 700; margin-bottom: 6px; }
+  .menu-card-name { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: var(--dark-rye); margin-bottom: 4px; }
+  .menu-card-desc { font-size: 12px; color: var(--muted); margin-bottom: 12px; line-height: 1.5; }
+  .menu-card-footer { display: flex; align-items: center; justify-content: space-between; }
+  .menu-card-price { font-weight: 700; font-size: 17px; color: var(--dark-rye); }
+  .menu-card-price span { font-size: 11px; color: var(--muted); font-weight: 400; }
+  .qty-control { display: flex; align-items: center; gap: 8px; }
+  .qty-btn {
+    width: 28px; height: 28px; border: 1px solid var(--border);
+    border-radius: 4px; background: var(--cream); cursor: pointer;
+    font-size: 16px; color: var(--dark-rye); display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+  }
+  .qty-btn:hover { background: var(--border); }
+  .qty-val { font-weight: 700; font-size: 15px; min-width: 20px; text-align: center; }
+
+  /* ORDER SUMMARY */
+  .order-bar {
+    position: sticky; bottom: 0; left: 0; right: 0; z-index: 50;
+    background: var(--forest); color: white;
+    padding: 16px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    transform: translateY(100%);
+    transition: transform 0.3s;
+    box-shadow: 0 -4px 32px rgba(44,36,22,0.2);
+  }
+  .order-bar.visible { transform: translateY(0); }
+  .order-bar-info { display: flex; align-items: center; gap: 24px; }
+  .order-bar-count { font-size: 13px; opacity: 0.8; }
+  .order-bar-total { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; }
+  .order-bar-btn {
+    background: white; color: var(--forest);
+    border: none; padding: 14px 36px; border-radius: 4px;
+    font-family: 'Nunito', sans-serif; font-weight: 700;
+    font-size: 14px; letter-spacing: 1px; text-transform: uppercase;
+    cursor: pointer; transition: background 0.2s;
+  }
+  .order-bar-btn:hover { background: var(--cream); }
+
+  /* MAP SECTION */
+  .map-section {
+    background: var(--cream);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+    padding: 0; overflow: hidden;
+  }
+  .map-info { padding: 80px 64px; display: flex; flex-direction: column; justify-content: center; }
+  .map-embed { height: 100%; min-height: 400px; }
+  .map-embed iframe { width: 100%; height: 100%; border: none; min-height: 400px; }
+  .address-block { margin-bottom: 32px; }
+  .address-block h3 { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--dark-rye); margin-bottom: 8px; }
+  .address-block p { font-size: 15px; color: var(--charcoal); line-height: 1.8; }
+  .address-block a { color: var(--forest); text-decoration: none; font-weight: 600; }
+  .hours-grid { display: grid; grid-template-columns: auto 1fr; gap: 4px 20px; font-size: 14px; margin-top: 16px; }
+  .hours-grid .day { color: var(--muted); }
+  .hours-grid .time { font-weight: 600; color: var(--charcoal); }
+
+  /* FOOTER */
+  footer {
+    background: var(--charcoal); color: white;
+    padding: 48px 48px 32px;
+  }
+  .footer-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px; flex-wrap: wrap; gap: 32px; }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 900; letter-spacing: 4px; }
+  .footer-logo span { display: block; font-family: 'Nunito', sans-serif; font-size: 11px; letter-spacing: 3px; opacity: 0.5; font-weight: 400; margin-top: 4px; }
+  .footer-policies { display: flex; gap: 12px; flex-wrap: wrap; }
+  .policy-btn {
+    padding: 8px 16px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.15);
+    background: transparent; color: rgba(255,255,255,0.7); cursor: pointer;
+    font-family: 'Nunito', sans-serif; font-size: 12px; letter-spacing: 0.5px;
+    transition: all 0.2s;
+  }
+  .policy-btn:hover { background: rgba(255,255,255,0.1); color: white; }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .footer-copy { font-size: 12px; opacity: 0.4; }
+  .footer-credit { font-size: 12px; opacity: 0.4; }
+  .footer-credit a { color: rgba(255,255,255,0.6); text-decoration: none; }
+  .footer-credit a:hover { color: white; }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 200;
+    background: rgba(44,36,22,0.6); backdrop-filter: blur(4px);
+    align-items: center; justify-content: center; padding: 24px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: white; border-radius: 12px; max-width: 480px; width: 100%;
+    padding: 40px; max-height: 80vh; overflow-y: auto;
+  }
+  .modal h3 { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 900; color: var(--dark-rye); margin-bottom: 8px; }
+  .modal p { font-size: 14px; color: var(--muted); margin-bottom: 24px; line-height: 1.6; }
+  .modal-close { float: right; background: none; border: none; font-size: 24px; cursor: pointer; color: var(--muted); margin: -8px -8px 0 0; }
+
+  @media (max-width: 768px) {
+    nav { padding: 14px 20px; }
+    nav ul { display: none; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-image-side { height: 50vh; }
+    .hero-content { padding: 40px 24px; }
+    section { padding: 64px 24px; }
+    .map-section { grid-template-columns: 1fr; }
+    .map-info { padding: 48px 24px; }
+    .about-strip { gap: 24px; padding: 24px; }
+    .order-bar { padding: 14px 20px; }
+    footer { padding: 40px 24px 24px; }
+    .footer-top { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-icon">🌾</div>
+    <div>
+      <div class="logo-text">ŽITO</div>
+      <div class="logo-sub">řemeslná pekárna</div>
+    </div>
+  </a>
+  <ul>
+    <li><a href="#about">О нас</a></li>
+    <li><a href="#gallery">Галерея</a></li>
+    <li><a href="#order">Меню</a></li>
+    <li><a href="#map">Адрес</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('order').scrollIntoView({behavior:'smooth'})">Заказать</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" style="padding:0;padding-top:76px;">
+  <div class="hero-image-side">
+    <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=900&q=80" alt="Пекарь за работой" />
+    <div class="hero-image-overlay"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-tag">Квасковый хлеб · Praha 2 · Vinohrady</div>
+    <h1>Хлеб, который<br>помнит <em>традицию</em></h1>
+    <p class="hero-subtitle">Живая закваска. Каменная мельница. Честный хлеб.</p>
+    <p class="hero-desc">Мы печём хлеб, пирожки, синабоны и багеты исключительно на натуральной закваске — без химических добавок, без спешки. Только мука, вода, закваска и время.</p>
+    <div class="hero-btns">
+      <a href="#order" class="btn-primary">Сделать заказ</a>
+      <a href="#gallery" class="btn-outline">Посмотреть галерею</a>
+    </div>
+    <div class="hero-badges">
+      <div class="hero-badge"><strong>100%</strong><span>Закваска</span></div>
+      <div class="hero-badge"><strong>20+</strong><span>Позиций</span></div>
+      <div class="hero-badge"><strong>Ежедн.</strong><span>Свежая выпечка</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT STRIP -->
+<div class="about-strip" id="about">
+  <div class="strip-item">
+    <div class="strip-icon">🌾</div>
+    <div class="strip-text">
+      <strong>Натуральная закваска</strong>
+      <span>Без дрожжей и улучшителей</span>
+    </div>
+  </div>
+  <div class="strip-item">
+    <div class="strip-icon">🔥</div>
+    <div class="strip-text">
+      <strong>Печём каждый день</strong>
+      <span>Только свежая выпечка</span>
+    </div>
+  </div>
+  <div class="strip-item">
+    <div class="strip-icon">🌿</div>
+    <div class="strip-text">
+      <strong>Натуральные ингредиенты</strong>
+      <span>Без консервантов и ароматизаторов</span>
+    </div>
+  </div>
+  <div class="strip-item">
+    <div class="strip-icon">📦</div>
+    <div class="strip-text">
+      <strong>Заказ на WhatsApp</strong>
+      <span>Готово к вашему времени</span>
+    </div>
+  </div>
+</div>
+
+<!-- CAROUSEL -->
+<section class="carousel-section" id="gallery">
+  <div class="section-tag">Наша пекарня</div>
+  <h2 class="section-title">ŽITO řemeslná<br><em>pekárna</em></h2>
+  <p class="section-desc">Каждый буханка — маленький шедевр. Мы с гордостью печём для жителей Виноград уже несколько лет.</p>
+
+  <div class="carousel-wrap">
+    <div class="carousel-track" id="carouselTrack">
+      <div class="carousel-slide">
+        <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=1200&q=80" alt="Свежий хлеб" />
+        <div class="slide-caption">
+          <h3>Квасковый хлеб</h3>
+          <p>Хрустящая корочка, мягкий мякиш — выпечется за 3 дня</p>
+        </div>
+      </div>
+      <div class="carousel-slide">
+        <img src="https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=1200&q=80" alt="Синабоны" />
+        <div class="slide-caption">
+          <h3>Квасковые синабоны</h3>
+          <p>Нежное тесто на закваске с корицей и карамельным кремом</p>
+        </div>
+      </div>
+      <div class="carousel-slide">
+        <img src="https://images.unsplash.com/photo-1567861911437-538298e4232c?w=1200&q=80" alt="Пирожки" />
+        <div class="slide-caption">
+          <h3>Пирожки ручной работы</h3>
+          <p>С мясом, капустой и яйцом, фаршем — по бабушкиным рецептам</p>
+        </div>
+      </div>
+      <div class="carousel-slide">
+        <img src="https://images.unsplash.com/photo-1549931319-a545dcf3bc7c?w=1200&q=80" alt="Багеты" />
+        <div class="slide-caption">
+          <h3>Квасковые багеты</h3>
+          <p>Французская традиция на чешской закваске</p>
+        </div>
+      </div>
+      <div class="carousel-slide">
+        <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=1200&q=80" alt="Пекарня" />
+        <div class="slide-caption">
+          <h3>Наш мастер</h3>
+          <p>Пекарь с душой — каждая буханка создаётся вручную</p>
+        </div>
+      </div>
+    </div>
+    <div class="carousel-arrows">
+      <button class="carousel-arrow" id="prevBtn">←</button>
+      <button class="carousel-arrow" id="nextBtn">→</button>
+    </div>
+  </div>
+  <div class="carousel-nav" id="carouselNav"></div>
+</section>
+
+<!-- ORDER / MENU -->
+<section class="menu-section" id="order">
+  <div class="section-tag">Меню и заказ</div>
+  <h2 class="section-title">Закажите <em>онлайн</em></h2>
+  <p class="section-desc">Выберите позиции, укажите количество — заказ отправится к нам в WhatsApp, и мы подтвердим время готовности.</p>
+
+  <div id="menuContainer"></div>
+</section>
+
+<!-- ORDER BAR -->
+<div class="order-bar" id="orderBar">
+  <div class="order-bar-info">
+    <span class="order-bar-count" id="orderCount">0 позиций</span>
+    <span class="order-bar-total" id="orderTotal">0 Kč</span>
+  </div>
+  <button class="order-bar-btn" onclick="sendWhatsApp()">Отправить заказ в WhatsApp 📱</button>
+</div>
+
+<!-- MAP -->
+<section class="map-section" id="map" style="padding:0;">
+  <div class="map-info">
+    <div class="section-tag">Где нас найти</div>
+    <h2 class="section-title" style="margin-bottom:32px;">Приходите<br><em>в гости</em></h2>
+    <div class="address-block">
+      <h3>📍 Адрес</h3>
+      <p>Blanická 772/6<br>120 00 Praha 2 — Vinohrady</p>
+    </div>
+    <div class="address-block">
+      <h3>⏰ Часы работы</h3>
+      <div class="hours-grid">
+        <span class="day">Пн — Пт</span><span class="time">7:00 — 19:00</span>
+        <span class="day">Суббота</span><span class="time">8:00 — 18:00</span>
+        <span class="day">Воскресенье</span><span class="time">9:00 — 15:00</span>
+      </div>
+    </div>
+    <div class="address-block">
+      <h3>📞 Контакты</h3>
+      <p>WhatsApp: <a href="https://wa.me/420608507366">+420 608 507 366</a><br>
+      Заказы принимаем с 8:00 до 18:00</p>
+    </div>
+  </div>
+  <div class="map-embed">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2560.6!2d14.4390647!3d50.0746494!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470b952ae0e2802f%3A0x7a173c0bc5a5ceef!2s%C5%BDITO%20%C5%99emesln%C3%A1%20pek%C3%A1rna!5e0!3m2!1sru!2scz!4v1711900000000"
+      allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo">ŽITO<span>řemeslná pekárna · Praha</span></div>
+    </div>
+    <div class="footer-policies">
+      <button class="policy-btn" onclick="openModal('privacy')">Политика конфиденциальности</button>
+      <button class="policy-btn" onclick="openModal('terms')">Условия использования</button>
+      <button class="policy-btn" onclick="openModal('cookies')">Политика cookies</button>
+      <button class="policy-btn" onclick="openModal('refund')">Возврат и обмен</button>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2025 ŽITO řemeslná pekárna. Blanická 772/6, Praha 2 — Vinohrady.</p>
+    <p class="footer-credit">Designed by <a href="#">Shumanskii Andrei</a></p>
+  </div>
+</footer>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <h3 id="modalTitle"></h3>
+    <p id="modalBody"></p>
+  </div>
+</div>
+
+<script>
+// ── MENU DATA ──────────────────────────────────────────────────
+const menu = [
+  { cat: "Хлеб на закваске", id:1, name:"Квасковый хлеб классический", desc:"Пшеничная закваска, каменная соль", price:89, img:"https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&q=70" },
+  { cat: "Хлеб на закваске", id:2, name:"Ржано-пшеничный хлеб", desc:"40% ржи, 60% пшеницы, тмин", price:95, img:"https://images.unsplash.com/photo-1549931319-a545dcf3bc7c?w=400&q=70" },
+  { cat: "Хлеб на закваске", id:3, name:"Хлеб с семечками", desc:"Подсолнух, кунжут, тыква", price:105, img:"https://images.unsplash.com/photo-1586444248902-2f64eddc13df?w=400&q=70" },
+  { cat: "Хлеб на закваске", id:4, name:"Цельнозерновой хлеб", desc:"Каменного помола, богат клетчаткой", price:110, img:"https://images.unsplash.com/photo-1534620808146-d33bb39128b2?w=400&q=70" },
+
+  { cat: "Пирожки", id:5, name:"Пирожок с мясом", desc:"Говядина, лук, перец — по-домашнему", price:65, img:"https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=400&q=70" },
+  { cat: "Пирожки", id:6, name:"Пирожок с капустой и яйцом", desc:"Тушёная капуста, варёное яйцо", price:60, img:"https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=70" },
+  { cat: "Пирожки", id:7, name:"Пирожок с фаршем", desc:"Свинина + говядина, зелень", price:65, img:"https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&q=70" },
+  { cat: "Пирожки", id:8, name:"Пирожок с картофелем", desc:"Пюре с маслом и зелёным луком", price:55, img:"https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=400&q=70" },
+
+  { cat: "Сдоба и синабоны", id:9, name:"Синабон классический", desc:"Тесто на закваске, корица, крем-чиз", price:85, img:"https://images.unsplash.com/photo-1564217135988-40a052b3b43c?w=400&q=70" },
+  { cat: "Сдоба и синабоны", id:10, name:"Синабон с орехами", desc:"Пекан, карамель, ваниль", price:95, img:"https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=400&q=70" },
+  { cat: "Сдоба и синабоны", id:11, name:"Плюшка с маком", desc:"Квасковое тесто, маковая начинка, глазурь", price:70, img:"https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400&q=70" },
+  { cat: "Сдоба и синабоны", id:12, name:"Булочка с изюмом", desc:"Мягкое тесто, ванильная нотка", price:60, img:"https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&q=70" },
+
+  { cat: "Багеты и сэндвичи", id:13, name:"Квасковый багет", desc:"Хрустящая корочка, воздушный мякиш", price:75, img:"https://images.unsplash.com/photo-1567861911437-538298e4232c?w=400&q=70" },
+  { cat: "Багеты и сэндвичи", id:14, name:"Багет с травами", desc:"Розмарин, тимьян, оливковое масло", price:85, img:"https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400&q=70" },
+  { cat: "Багеты и сэндвичи", id:15, name:"Сэндвич с ветчиной и сыром", desc:"Домашний майонез, свежие овощи", price:120, img:"https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400&q=70" },
+  { cat: "Багеты и сэндвичи", id:16, name:"Сэндвич с лососем", desc:"Крем-чиз, каперсы, укроп", price:145, img:"https://images.unsplash.com/photo-1553909489-cd47e0ef937f?w=400&q=70" },
+
+  { cat: "Выпечка дня", id:17, name:"Фокачча с оливками", desc:"Итальянская классика на чешской закваске", price:95, img:"https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400&q=70" },
+  { cat: "Выпечка дня", id:18, name:"Лепёшка с розмарином", desc:"Тонкая, хрустящая, ароматная", price:80, img:"https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=400&q=70" },
+  { cat: "Выпечка дня", id:19, name:"Пита квасковая", desc:"Идеально для дипов и закусок", price:55, img:"https://images.unsplash.com/photo-1506459225024-1428097a7e18?w=400&q=70" },
+  { cat: "Выпечка дня", id:20, name:"Круассан на закваске", desc:"Слоёный, маслянистый, несравнимый", price:90, img:"https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400&q=70" },
+];
+
+const cart = {};
+
+function buildMenu() {
+  const cats = [...new Set(menu.map(i => i.cat))];
+  const container = document.getElementById('menuContainer');
+  cats.forEach(cat => {
+    const catDiv = document.createElement('div');
+    catDiv.style.marginBottom = '48px';
+    catDiv.innerHTML = `<h3 style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--dark-rye);margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border);">${cat}</h3>`;
+    const grid = document.createElement('div');
+    grid.className = 'menu-grid';
+    menu.filter(i => i.cat === cat).forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'menu-card';
+      card.innerHTML = `
+        <img class="menu-card-img" src="${item.img}" alt="${item.name}" onerror="this.src='https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&q=70'"/>
+        <div class="menu-card-body">
+          <div class="menu-card-cat">${item.cat}</div>
+          <div class="menu-card-name">${item.name}</div>
+          <div class="menu-card-desc">${item.desc}</div>
+          <div class="menu-card-footer">
+            <div class="menu-card-price">${item.price} <span>Kč / шт.</span></div>
+            <div class="qty-control">
+              <button class="qty-btn" onclick="changeQty(${item.id},-1)">−</button>
+              <span class="qty-val" id="qty-${item.id}">0</span>
+              <button class="qty-btn" onclick="changeQty(${item.id},1)">+</button>
+            </div>
+          </div>
+        </div>`;
+      grid.appendChild(card);
+    });
+    catDiv.appendChild(grid);
+    container.appendChild(catDiv);
+  });
+}
+
+function changeQty(id, delta) {
+  const item = menu.find(i => i.id === id);
+  const cur = cart[id] || 0;
+  const next = Math.max(0, cur + delta);
+  if (next === 0) delete cart[id]; else cart[id] = next;
+  document.getElementById('qty-' + id).textContent = next;
+  updateOrderBar();
+}
+
+function updateOrderBar() {
+  const entries = Object.entries(cart);
+  const total = entries.reduce((s,[id,q]) => s + menu.find(i=>i.id==id).price * q, 0);
+  const count = entries.reduce((s,[,q]) => s + q, 0);
+  document.getElementById('orderCount').textContent = count + ' позиций';
+  document.getElementById('orderTotal').textContent = total.toLocaleString('cs-CZ') + ' Kč';
+  const bar = document.getElementById('orderBar');
+  count > 0 ? bar.classList.add('visible') : bar.classList.remove('visible');
+}
+
+function sendWhatsApp() {
+  const entries = Object.entries(cart);
+  if (!entries.length) return;
+  let msg = '🌾 *Заказ из ŽITO pekárna*\n\n';
+  let total = 0;
+  entries.forEach(([id, q]) => {
+    const item = menu.find(i => i.id == id);
+    msg += `• ${item.name} × ${q} = ${item.price * q} Kč\n`;
+    total += item.price * q;
+  });
+  msg += `\n*Итого: ${total} Kč*\n\nПросьба подтвердить время готовности. Спасибо! 🙏`;
+  const url = 'https://wa.me/420608507366?text=' + encodeURIComponent(msg);
+  window.open(url, '_blank');
+}
+
+// ── CAROUSEL ──────────────────────────────────────────────────
+let current = 0;
+const slides = document.querySelectorAll('.carousel-slide');
+const navEl = document.getElementById('carouselNav');
+const track = document.getElementById('carouselTrack');
+
+slides.forEach((_, i) => {
+  const dot = document.createElement('button');
+  dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+  dot.onclick = () => goTo(i);
+  navEl.appendChild(dot);
+});
+
+function goTo(idx) {
+  current = (idx + slides.length) % slides.length;
+  track.style.transform = `translateX(-${current * 100}%)`;
+  document.querySelectorAll('.carousel-dot').forEach((d,i) => d.classList.toggle('active', i===current));
+}
+document.getElementById('prevBtn').onclick = () => goTo(current - 1);
+document.getElementById('nextBtn').onclick = () => goTo(current + 1);
+setInterval(() => goTo(current + 1), 5000);
+
+// ── MODALS ────────────────────────────────────────────────────
+const modalContent = {
+  privacy: { title: 'Политика конфиденциальности', body: 'Мы уважаем вашу конфиденциальность. Данные из заказов (имя, контакт) используются исключительно для обработки заказа и не передаются третьим лицам. Документ в разработке — полная версия появится в ближайшее время.' },
+  terms: { title: 'Условия использования', body: 'Используя данный сайт и оформляя заказ, вы соглашаетесь с нашими условиями. Заказы принимаются к обработке после подтверждения в WhatsApp. Полная версия условий в разработке.' },
+  cookies: { title: 'Политика cookies', body: 'Наш сайт использует минимальное количество технических cookies, необходимых для работы. Мы не используем сторонние трекеры. Полная политика в разработке.' },
+  refund: { title: 'Возврат и обмен', body: 'Поскольку мы производим продукты питания, возврат возможен только при обнаружении дефекта качества. Пожалуйста, свяжитесь с нами в WhatsApp в течение 24 часов после получения заказа.' },
+};
+function openModal(key) {
+  const m = modalContent[key];
+  document.getElementById('modalTitle').textContent = m.title;
+  document.getElementById('modalBody').textContent = m.body;
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+
+// ── INIT ──────────────────────────────────────────────────────
+buildMenu();
+</script>
+</body>
+</html>
