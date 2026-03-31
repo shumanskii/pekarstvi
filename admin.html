@@ -155,6 +155,21 @@
   .convert-status.ok { color: var(--green); }
   .convert-status.err { color: var(--red); }
   .convert-status.info { color: var(--muted); }
+  .hours-section { background: white; border-radius: 10px; border: 1px solid var(--border); padding: 24px 28px; margin-bottom: 32px; }
+  .hours-grid-admin { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+  .hours-row {
+    display: grid; grid-template-columns: 90px 1fr; align-items: center; gap: 12px;
+    padding: 12px 16px; border: 1.5px solid var(--border); border-radius: 8px; background: var(--cream);
+  }
+  .hours-row.closed-day { opacity: 0.6; }
+  .hours-day-name { font-weight: 700; font-size: 14px; color: var(--dark-rye); }
+  .hours-inputs { display: flex; align-items: center; gap: 8px; }
+  .hours-input { width: 72px; padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px; font-family: 'Nunito', sans-serif; font-size: 13px; text-align: center; outline: none; }
+  .hours-input:focus { border-color: var(--forest); }
+  .hours-sep { font-size: 13px; color: var(--muted); font-weight: 700; }
+  .hours-closed-toggle { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); cursor: pointer; margin-left: 4px; white-space: nowrap; }
+  .hours-closed-toggle input { accent-color: var(--red); width: 14px; height: 14px; cursor: pointer; }
+
   .toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--charcoal); color: white; padding: 14px 28px; border-radius: 8px; font-size: 14px; font-weight: 600; transition: transform 0.3s; z-index: 999; white-space: nowrap; }
   .toast.show { transform: translateX(-50%) translateY(0); }
 
@@ -196,6 +211,15 @@
   <div class="admin-body">
     <!-- Stats -->
     <div class="stats-row" id="statsRow"></div>
+
+    <!-- Hours Management -->
+    <div class="hours-section">
+      <div class="toolbar" style="margin-bottom:16px;">
+        <h2>⏰ Часы работы</h2>
+        <button class="btn btn-green" onclick="saveHours()">💾 Сохранить часы</button>
+      </div>
+      <div class="hours-grid-admin" id="hoursAdminGrid"></div>
+    </div>
 
     <!-- Toolbar -->
     <div class="toolbar">
@@ -360,6 +384,7 @@ function renderAll() {
   loadData();
   renderStats();
   renderTable();
+  renderHoursAdmin();
 }
 
 function renderStats() {
@@ -553,7 +578,68 @@ function saveItem() {
   saveData(); renderAll(); closeEditModal();
 }
 
-// ── TOAST ─────────────────────────────────────────────────────
+// ── HOURS ─────────────────────────────────────────────────────
+const DAY_NAMES = {0:'Воскресенье',1:'Понедельник',2:'Вторник',3:'Среда',4:'Четверг',5:'Пятница',6:'Суббота'};
+const DAY_ORDER = [1,2,3,4,5,6,0];
+
+const defaultHours = {
+  1:{open:'07:00',close:'19:00'}, 2:{open:'07:00',close:'19:00'},
+  3:{open:'07:00',close:'19:00'}, 4:{open:'07:00',close:'19:00'},
+  5:{open:'07:00',close:'19:00'}, 6:{open:'08:00',close:'18:00'},
+  0:{open:'09:00',close:'15:00'},
+};
+
+function loadHours() {
+  try { const s = localStorage.getItem('zito_hours'); return s ? JSON.parse(s) : JSON.parse(JSON.stringify(defaultHours)); }
+  catch(e) { return JSON.parse(JSON.stringify(defaultHours)); }
+}
+
+function renderHoursAdmin() {
+  const hours = loadHours();
+  const grid = document.getElementById('hoursAdminGrid');
+  grid.innerHTML = '';
+  DAY_ORDER.forEach(dow => {
+    const h = hours[dow] || { open:'09:00', close:'18:00' };
+    const isClosed = !!h.closed;
+    const row = document.createElement('div');
+    row.className = 'hours-row' + (isClosed ? ' closed-day' : '');
+    row.id = `hrow-${dow}`;
+    row.innerHTML = `
+      <div class="hours-day-name">${DAY_NAMES[dow]}</div>
+      <div class="hours-inputs">
+        <input class="hours-input" id="hopen-${dow}" type="time" value="${h.open||'09:00'}" ${isClosed?'disabled':''} />
+        <span class="hours-sep">—</span>
+        <input class="hours-input" id="hclose-${dow}" type="time" value="${h.close||'18:00'}" ${isClosed?'disabled':''} />
+        <label class="hours-closed-toggle">
+          <input type="checkbox" id="hclosed-${dow}" ${isClosed?'checked':''} onchange="toggleDayClosed(${dow}, this.checked)" />
+          Закрыто
+        </label>
+      </div>`;
+    grid.appendChild(row);
+  });
+}
+
+function toggleDayClosed(dow, closed) {
+  const row = document.getElementById(`hrow-${dow}`);
+  row.classList.toggle('closed-day', closed);
+  document.getElementById(`hopen-${dow}`).disabled = closed;
+  document.getElementById(`hclose-${dow}`).disabled = closed;
+}
+
+function saveHours() {
+  const result = {};
+  DAY_ORDER.forEach(dow => {
+    const closed = document.getElementById(`hclosed-${dow}`).checked;
+    result[dow] = closed
+      ? { closed: true }
+      : { open: document.getElementById(`hopen-${dow}`).value, close: document.getElementById(`hclose-${dow}`).value };
+  });
+  localStorage.setItem('zito_hours', JSON.stringify(result));
+  showToast('✅ Часы работы сохранены! Сайт обновится автоматически.');
+}
+
+// ── INIT ──────────────────────────────────────────────────────
+
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
