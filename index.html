@@ -670,9 +670,13 @@ async function loadAllData() {
     };
     window._hoursFromSheets = hoursMap;
 
-    // Gallery
+    // Gallery — строка с order=0 это hero фото, остальные — карусель
+    const heroRow = galleryRows.find(r => Number(r.order) === 0);
+    if (heroRow && heroRow.img) {
+      document.getElementById('heroImg').src = heroRow.img;
+    }
     const slides = galleryRows
-      .filter(r => r.img)
+      .filter(r => r.img && Number(r.order) !== 0)
       .sort((a,b) => Number(a.order) - Number(b.order))
       .map(r => ({ img: r.img, title: r.title||'', caption: r.caption||'' }));
     window._slidesFromSheets = slides.length ? slides : null;
