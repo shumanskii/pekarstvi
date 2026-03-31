@@ -292,6 +292,61 @@
   .modal p { font-size: 14px; color: var(--muted); margin-bottom: 24px; line-height: 1.6; }
   .modal-close { float: right; background: none; border: none; font-size: 24px; cursor: pointer; color: var(--muted); margin: -8px -8px 0 0; }
 
+  /* ORDER FORM MODAL */
+  .order-modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 300;
+    background: rgba(44,36,22,0.7); backdrop-filter: blur(6px);
+    align-items: center; justify-content: center; padding: 20px;
+  }
+  .order-modal-overlay.open { display: flex; }
+  .order-modal {
+    background: white; border-radius: 16px; max-width: 520px; width: 100%;
+    max-height: 90vh; overflow-y: auto;
+    box-shadow: 0 24px 80px rgba(44,36,22,0.3);
+  }
+  .order-modal-header {
+    background: var(--forest); color: white; padding: 28px 32px 24px;
+    border-radius: 16px 16px 0 0;
+    display: flex; justify-content: space-between; align-items: flex-start;
+  }
+  .order-modal-header h3 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; margin-bottom: 4px; }
+  .order-modal-header p { font-size: 13px; opacity: 0.75; }
+  .order-modal-close { background: rgba(255,255,255,0.15); border: none; color: white; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-left: 16px; }
+  .order-modal-body { padding: 28px 32px; }
+  .order-summary-list { background: var(--cream); border-radius: 8px; padding: 16px; margin-bottom: 24px; }
+  .order-summary-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: 13px; border-bottom: 1px solid var(--border); }
+  .order-summary-item:last-child { border: none; font-weight: 700; font-size: 15px; padding-top: 10px; color: var(--dark-rye); }
+  .form-group { margin-bottom: 18px; }
+  .form-label { display: block; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .form-input {
+    width: 100%; padding: 12px 16px; border: 1.5px solid var(--border);
+    border-radius: 8px; font-family: 'Nunito', sans-serif; font-size: 15px;
+    color: var(--charcoal); background: white; outline: none; transition: border-color 0.2s;
+  }
+  .form-input:focus { border-color: var(--forest); }
+  .form-input.error { border-color: #e05252; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .time-slots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .time-slot {
+    padding: 10px 6px; border: 1.5px solid var(--border);
+    border-radius: 8px; text-align: center; cursor: pointer;
+    font-size: 13px; font-weight: 600; color: var(--charcoal);
+    transition: all 0.15s; background: white;
+  }
+  .time-slot:hover { border-color: var(--forest); color: var(--forest); }
+  .time-slot.selected { background: var(--forest); color: white; border-color: var(--forest); }
+  .time-slot.disabled { opacity: 0.35; cursor: not-allowed; }
+  .form-submit {
+    width: 100%; padding: 16px; background: var(--forest); color: white;
+    border: none; border-radius: 8px; font-family: 'Nunito', sans-serif;
+    font-size: 15px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    cursor: pointer; transition: background 0.2s; margin-top: 8px;
+  }
+  .form-submit:hover { background: var(--dark-forest); }
+  .phone-prefix { position: relative; }
+  .phone-prefix::before { content: '+420'; position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 15px; color: var(--charcoal); font-weight: 600; pointer-events: none; z-index:1; }
+  .phone-prefix .form-input { padding-left: 58px; }
+
   @media (max-width: 768px) {
     nav { padding: 14px 20px; }
     nav ul { display: none; }
@@ -450,7 +505,7 @@
     <span class="order-bar-count" id="orderCount">0 позиций</span>
     <span class="order-bar-total" id="orderTotal">0 Kč</span>
   </div>
-  <button class="order-bar-btn" onclick="sendWhatsApp()">Отправить заказ в WhatsApp 📱</button>
+  <button class="order-bar-btn" onclick="openOrderForm()">Оформить заказ 📋</button>
 </div>
 
 <!-- MAP -->
@@ -484,6 +539,57 @@
   </div>
 </section>
 
+<!-- ORDER FORM MODAL -->
+<div class="order-modal-overlay" id="orderFormOverlay" onclick="if(event.target===this)closeOrderForm()">
+  <div class="order-modal">
+    <div class="order-modal-header">
+      <div>
+        <h3>🌾 Оформление заказа</h3>
+        <p>Заполните данные — заказ уйдёт в WhatsApp</p>
+      </div>
+      <button class="order-modal-close" onclick="closeOrderForm()">×</button>
+    </div>
+    <div class="order-modal-body">
+      <!-- Order summary -->
+      <div class="order-summary-list" id="formSummaryList"></div>
+
+      <!-- Name -->
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Имя *</label>
+          <input class="form-input" id="fieldName" type="text" placeholder="Иван" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Фамилия *</label>
+          <input class="form-input" id="fieldSurname" type="text" placeholder="Новак" />
+        </div>
+      </div>
+
+      <!-- Phone -->
+      <div class="form-group">
+        <label class="form-label">Телефон * (Чехия)</label>
+        <div class="phone-prefix">
+          <input class="form-input" id="fieldPhone" type="tel" placeholder="606 123 456" maxlength="12" oninput="formatPhone(this)" />
+        </div>
+      </div>
+
+      <!-- Pickup time -->
+      <div class="form-group">
+        <label class="form-label">Время самовывоза *</label>
+        <div class="time-slots" id="timeSlots"></div>
+      </div>
+
+      <!-- Comment -->
+      <div class="form-group">
+        <label class="form-label">Комментарий (необязательно)</label>
+        <input class="form-input" id="fieldComment" type="text" placeholder="Пожелания к заказу..." />
+      </div>
+
+      <button class="form-submit" onclick="submitOrder()">Отправить в WhatsApp 📱</button>
+    </div>
+  </div>
+</div>
+
 <!-- FOOTER -->
 <footer>
   <div class="footer-top">
@@ -513,39 +619,44 @@
 </div>
 
 <script>
-// ── MENU DATA ──────────────────────────────────────────────────
-const menu = [
-  { cat: "Хлеб на закваске", id:1, name:"Квасковый хлеб классический", desc:"Пшеничная закваска, каменная соль", price:89, img:"https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&q=70" },
-  { cat: "Хлеб на закваске", id:2, name:"Ржано-пшеничный хлеб", desc:"40% ржи, 60% пшеницы, тмин", price:95, img:"https://images.unsplash.com/photo-1549931319-a545dcf3bc7c?w=400&q=70" },
-  { cat: "Хлеб на закваске", id:3, name:"Хлеб с семечками", desc:"Подсолнух, кунжут, тыква", price:105, img:"https://images.unsplash.com/photo-1586444248902-2f64eddc13df?w=400&q=70" },
-  { cat: "Хлеб на закваске", id:4, name:"Цельнозерновой хлеб", desc:"Каменного помола, богат клетчаткой", price:110, img:"https://images.unsplash.com/photo-1534620808146-d33bb39128b2?w=400&q=70" },
-
-  { cat: "Пирожки", id:5, name:"Пирожок с мясом", desc:"Говядина, лук, перец — по-домашнему", price:65, img:"https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=400&q=70" },
-  { cat: "Пирожки", id:6, name:"Пирожок с капустой и яйцом", desc:"Тушёная капуста, варёное яйцо", price:60, img:"https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=70" },
-  { cat: "Пирожки", id:7, name:"Пирожок с фаршем", desc:"Свинина + говядина, зелень", price:65, img:"https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&q=70" },
-  { cat: "Пирожки", id:8, name:"Пирожок с картофелем", desc:"Пюре с маслом и зелёным луком", price:55, img:"https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=400&q=70" },
-
-  { cat: "Сдоба и синабоны", id:9, name:"Синабон классический", desc:"Тесто на закваске, корица, крем-чиз", price:85, img:"https://images.unsplash.com/photo-1564217135988-40a052b3b43c?w=400&q=70" },
-  { cat: "Сдоба и синабоны", id:10, name:"Синабон с орехами", desc:"Пекан, карамель, ваниль", price:95, img:"https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=400&q=70" },
-  { cat: "Сдоба и синабоны", id:11, name:"Плюшка с маком", desc:"Квасковое тесто, маковая начинка, глазурь", price:70, img:"https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400&q=70" },
-  { cat: "Сдоба и синабоны", id:12, name:"Булочка с изюмом", desc:"Мягкое тесто, ванильная нотка", price:60, img:"https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&q=70" },
-
-  { cat: "Багеты и сэндвичи", id:13, name:"Квасковый багет", desc:"Хрустящая корочка, воздушный мякиш", price:75, img:"https://images.unsplash.com/photo-1567861911437-538298e4232c?w=400&q=70" },
-  { cat: "Багеты и сэндвичи", id:14, name:"Багет с травами", desc:"Розмарин, тимьян, оливковое масло", price:85, img:"https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400&q=70" },
-  { cat: "Багеты и сэндвичи", id:15, name:"Сэндвич с ветчиной и сыром", desc:"Домашний майонез, свежие овощи", price:120, img:"https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400&q=70" },
-  { cat: "Багеты и сэндвичи", id:16, name:"Сэндвич с лососем", desc:"Крем-чиз, каперсы, укроп", price:145, img:"https://images.unsplash.com/photo-1553909489-cd47e0ef937f?w=400&q=70" },
-
-  { cat: "Выпечка дня", id:17, name:"Фокачча с оливками", desc:"Итальянская классика на чешской закваске", price:95, img:"https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400&q=70" },
-  { cat: "Выпечка дня", id:18, name:"Лепёшка с розмарином", desc:"Тонкая, хрустящая, ароматная", price:80, img:"https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=400&q=70" },
-  { cat: "Выпечка дня", id:19, name:"Пита квасковая", desc:"Идеально для дипов и закусок", price:55, img:"https://images.unsplash.com/photo-1506459225024-1428097a7e18?w=400&q=70" },
-  { cat: "Выпечка дня", id:20, name:"Круассан на закваске", desc:"Слоёный, маслянистый, несравнимый", price:90, img:"https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400&q=70" },
+// ── MENU: load from localStorage (admin) or use defaults ───────
+const defaultMenu = [
+  { cat: "Хлеб на закваске", id:1, name:"Квасковый хлеб классический", desc:"Пшеничная закваска, каменная соль", price:89, img:"https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&q=70", active:true },
+  { cat: "Хлеб на закваске", id:2, name:"Ржано-пшеничный хлеб", desc:"40% ржи, 60% пшеницы, тмин", price:95, img:"https://images.unsplash.com/photo-1549931319-a545dcf3bc7c?w=400&q=70", active:true },
+  { cat: "Хлеб на закваске", id:3, name:"Хлеб с семечками", desc:"Подсолнух, кунжут, тыква", price:105, img:"https://images.unsplash.com/photo-1586444248902-2f64eddc13df?w=400&q=70", active:true },
+  { cat: "Хлеб на закваске", id:4, name:"Цельнозерновой хлеб", desc:"Каменного помола, богат клетчаткой", price:110, img:"https://images.unsplash.com/photo-1534620808146-d33bb39128b2?w=400&q=70", active:true },
+  { cat: "Пирожки", id:5, name:"Пирожок с мясом", desc:"Говядина, лук, перец — по-домашнему", price:65, img:"https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=400&q=70", active:true },
+  { cat: "Пирожки", id:6, name:"Пирожок с капустой и яйцом", desc:"Тушёная капуста, варёное яйцо", price:60, img:"https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=70", active:true },
+  { cat: "Пирожки", id:7, name:"Пирожок с фаршем", desc:"Свинина + говядина, зелень", price:65, img:"https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&q=70", active:true },
+  { cat: "Пирожки", id:8, name:"Пирожок с картофелем", desc:"Пюре с маслом и зелёным луком", price:55, img:"https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=400&q=70", active:true },
+  { cat: "Сдоба и синабоны", id:9, name:"Синабон классический", desc:"Тесто на закваске, корица, крем-чиз", price:85, img:"https://images.unsplash.com/photo-1564217135988-40a052b3b43c?w=400&q=70", active:true },
+  { cat: "Сдоба и синабоны", id:10, name:"Синабон с орехами", desc:"Пекан, карамель, ваниль", price:95, img:"https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=400&q=70", active:true },
+  { cat: "Сдоба и синабоны", id:11, name:"Плюшка с маком", desc:"Квасковое тесто, маковая начинка, глазурь", price:70, img:"https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400&q=70", active:true },
+  { cat: "Сдоба и синабоны", id:12, name:"Булочка с изюмом", desc:"Мягкое тесто, ванильная нотка", price:60, img:"https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&q=70", active:true },
+  { cat: "Багеты и сэндвичи", id:13, name:"Квасковый багет", desc:"Хрустящая корочка, воздушный мякиш", price:75, img:"https://images.unsplash.com/photo-1567861911437-538298e4232c?w=400&q=70", active:true },
+  { cat: "Багеты и сэндвичи", id:14, name:"Багет с травами", desc:"Розмарин, тимьян, оливковое масло", price:85, img:"https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400&q=70", active:true },
+  { cat: "Багеты и сэндвичи", id:15, name:"Сэндвич с ветчиной и сыром", desc:"Домашний майонез, свежие овощи", price:120, img:"https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400&q=70", active:true },
+  { cat: "Багеты и сэндвичи", id:16, name:"Сэндвич с лососем", desc:"Крем-чиз, каперсы, укроп", price:145, img:"https://images.unsplash.com/photo-1553909489-cd47e0ef937f?w=400&q=70", active:true },
+  { cat: "Выпечка дня", id:17, name:"Фокачча с оливками", desc:"Итальянская классика на чешской закваске", price:95, img:"https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400&q=70", active:true },
+  { cat: "Выпечка дня", id:18, name:"Лепёшка с розмарином", desc:"Тонкая, хрустящая, ароматная", price:80, img:"https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=400&q=70", active:true },
+  { cat: "Выпечка дня", id:19, name:"Пита квасковая", desc:"Идеально для дипов и закусок", price:55, img:"https://images.unsplash.com/photo-1506459225024-1428097a7e18?w=400&q=70", active:true },
+  { cat: "Выпечка дня", id:20, name:"Круассан на закваске", desc:"Слоёный, маслянистый, несравнимый", price:90, img:"https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400&q=70", active:true },
 ];
 
+function loadMenu() {
+  try {
+    const saved = localStorage.getItem('zito_menu');
+    return saved ? JSON.parse(saved) : defaultMenu;
+  } catch(e) { return defaultMenu; }
+}
+
+const menu = loadMenu().filter(i => i.active !== false);
 const cart = {};
 
 function buildMenu() {
   const cats = [...new Set(menu.map(i => i.cat))];
   const container = document.getElementById('menuContainer');
+  container.innerHTML = '';
   cats.forEach(cat => {
     const catDiv = document.createElement('div');
     catDiv.style.marginBottom = '48px';
@@ -578,7 +689,6 @@ function buildMenu() {
 }
 
 function changeQty(id, delta) {
-  const item = menu.find(i => i.id === id);
   const cur = cart[id] || 0;
   const next = Math.max(0, cur + delta);
   if (next === 0) delete cart[id]; else cart[id] = next;
@@ -596,19 +706,105 @@ function updateOrderBar() {
   count > 0 ? bar.classList.add('visible') : bar.classList.remove('visible');
 }
 
-function sendWhatsApp() {
+// ── ORDER FORM ────────────────────────────────────────────────
+const pickupTimes = ['9:00','9:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00'];
+let selectedTime = '';
+
+function buildTimeSlots() {
+  const container = document.getElementById('timeSlots');
+  const now = new Date();
+  const nowMins = now.getHours() * 60 + now.getMinutes() + 45; // min 45 min ahead
+  container.innerHTML = '';
+  pickupTimes.forEach(t => {
+    const [h,m] = t.split(':').map(Number);
+    const slotMins = h * 60 + m;
+    const past = slotMins < nowMins;
+    const btn = document.createElement('button');
+    btn.className = 'time-slot' + (past ? ' disabled' : '');
+    btn.textContent = t;
+    btn.type = 'button';
+    if (!past) btn.onclick = () => selectTime(t, btn);
+    container.appendChild(btn);
+  });
+}
+
+function selectTime(t, btn) {
+  selectedTime = t;
+  document.querySelectorAll('.time-slot').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+
+function formatPhone(inp) {
+  let v = inp.value.replace(/\D/g,'');
+  if (v.length > 9) v = v.slice(0,9);
+  // format: 606 123 456
+  let fmt = '';
+  for (let i=0; i<v.length; i++) {
+    if (i===3||i===6) fmt += ' ';
+    fmt += v[i];
+  }
+  inp.value = fmt;
+}
+
+function openOrderForm() {
   const entries = Object.entries(cart);
   if (!entries.length) return;
-  let msg = '🌾 *Заказ из ŽITO pekárna*\n\n';
+  // build summary
+  const list = document.getElementById('formSummaryList');
   let total = 0;
-  entries.forEach(([id, q]) => {
-    const item = menu.find(i => i.id == id);
-    msg += `• ${item.name} × ${q} = ${item.price * q} Kč\n`;
+  let html = '';
+  entries.forEach(([id,q]) => {
+    const item = menu.find(i=>i.id==id);
+    const sub = item.price * q;
+    total += sub;
+    html += `<div class="order-summary-item"><span>${item.name} × ${q}</span><span>${sub} Kč</span></div>`;
+  });
+  html += `<div class="order-summary-item"><span>Итого</span><span>${total} Kč</span></div>`;
+  list.innerHTML = html;
+  buildTimeSlots();
+  selectedTime = '';
+  document.getElementById('orderFormOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeOrderForm() {
+  document.getElementById('orderFormOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function submitOrder() {
+  const name = document.getElementById('fieldName').value.trim();
+  const surname = document.getElementById('fieldSurname').value.trim();
+  const phone = document.getElementById('fieldPhone').value.replace(/\D/g,'');
+  const comment = document.getElementById('fieldComment').value.trim();
+
+  let valid = true;
+  ['fieldName','fieldSurname','fieldPhone'].forEach(id => {
+    document.getElementById(id).classList.remove('error');
+  });
+  if (!name) { document.getElementById('fieldName').classList.add('error'); valid = false; }
+  if (!surname) { document.getElementById('fieldSurname').classList.add('error'); valid = false; }
+  if (phone.length < 9) { document.getElementById('fieldPhone').classList.add('error'); valid = false; }
+  if (!selectedTime) { alert('Пожалуйста, выберите время самовывоза'); valid = false; }
+  if (!valid) return;
+
+  const entries = Object.entries(cart);
+  let msg = `🌾 *Заказ из ŽITO pekárna*\n\n`;
+  msg += `👤 *${name} ${surname}*\n`;
+  msg += `📞 +420 ${document.getElementById('fieldPhone').value}\n`;
+  msg += `⏰ Самовывоз: *${selectedTime}*\n\n`;
+  let total = 0;
+  entries.forEach(([id,q]) => {
+    const item = menu.find(i=>i.id==id);
+    msg += `• ${item.name} × ${q} = ${item.price*q} Kč\n`;
     total += item.price * q;
   });
-  msg += `\n*Итого: ${total} Kč*\n\nПросьба подтвердить время готовности. Спасибо! 🙏`;
-  const url = 'https://wa.me/420608507366?text=' + encodeURIComponent(msg);
-  window.open(url, '_blank');
+  msg += `\n💰 *Итого: ${total} Kč*`;
+  if (comment) msg += `\n\n💬 ${comment}`;
+  msg += '\n\nСпасибо! 🙏';
+
+  window.open('https://wa.me/420608507366?text=' + encodeURIComponent(msg), '_blank');
+  closeOrderForm();
 }
 
 // ── CAROUSEL ──────────────────────────────────────────────────
@@ -648,7 +844,6 @@ function openModal(key) {
 }
 function closeModal() { document.getElementById('modal').classList.remove('open'); }
 
-// ── INIT ──────────────────────────────────────────────────────
 buildMenu();
 </script>
 </body>
