@@ -399,7 +399,7 @@
 <!-- HERO -->
 <section class="hero" style="padding:0;padding-top:76px;">
   <div class="hero-image-side">
-    <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=900&q=80" alt="Пекарь за работой" />
+    <img id="heroImg" src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=900&q=80" alt="Пекарь за работой" />
     <div class="hero-image-overlay"></div>
   </div>
   <div class="hero-content">
@@ -459,41 +459,6 @@
 
   <div class="carousel-wrap">
     <div class="carousel-track" id="carouselTrack">
-      <div class="carousel-slide">
-        <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=1200&q=80" alt="Свежий хлеб" />
-        <div class="slide-caption">
-          <h3>Квасковый хлеб</h3>
-          <p>Хрустящая корочка, мягкий мякиш — выпечется за 3 дня</p>
-        </div>
-      </div>
-      <div class="carousel-slide">
-        <img src="https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=1200&q=80" alt="Синабоны" />
-        <div class="slide-caption">
-          <h3>Квасковые синабоны</h3>
-          <p>Нежное тесто на закваске с корицей и карамельным кремом</p>
-        </div>
-      </div>
-      <div class="carousel-slide">
-        <img src="https://images.unsplash.com/photo-1567861911437-538298e4232c?w=1200&q=80" alt="Пирожки" />
-        <div class="slide-caption">
-          <h3>Пирожки ручной работы</h3>
-          <p>С мясом, капустой и яйцом, фаршем — по бабушкиным рецептам</p>
-        </div>
-      </div>
-      <div class="carousel-slide">
-        <img src="https://images.unsplash.com/photo-1549931319-a545dcf3bc7c?w=1200&q=80" alt="Багеты" />
-        <div class="slide-caption">
-          <h3>Квасковые багеты</h3>
-          <p>Французская традиция на чешской закваске</p>
-        </div>
-      </div>
-      <div class="carousel-slide">
-        <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=1200&q=80" alt="Пекарня" />
-        <div class="slide-caption">
-          <h3>Наш мастер</h3>
-          <p>Пекарь с душой — каждая буханка создаётся вручную</p>
-        </div>
-      </div>
     </div>
     <div class="carousel-arrows">
       <button class="carousel-arrow" id="prevBtn">←</button>
@@ -897,27 +862,57 @@ function submitOrder() {
   closeOrderForm();
 }
 
-// ── CAROUSEL ──────────────────────────────────────────────────
-let current = 0;
-const slides = document.querySelectorAll('.carousel-slide');
-const navEl = document.getElementById('carouselNav');
-const track = document.getElementById('carouselTrack');
+// ── HERO & CAROUSEL from localStorage ────────────────────────
+const defaultHeroImg = 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=900&q=80';
+const defaultSlides = [
+  { img:'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=1200&q=80', title:'Квасковый хлеб', caption:'Хрустящая корочка, мягкий мякиш — выпечется за 3 дня' },
+  { img:'https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=1200&q=80', title:'Квасковые синабоны', caption:'Нежное тесто на закваске с корицей и карамельным кремом' },
+  { img:'https://images.unsplash.com/photo-1567861911437-538298e4232c?w=1200&q=80', title:'Пирожки ручной работы', caption:'С мясом, капустой и яйцом, фаршем — по бабушкиным рецептам' },
+  { img:'https://images.unsplash.com/photo-1549931319-a545dcf3bc7c?w=1200&q=80', title:'Квасковые багеты', caption:'Французская традиция на чешской закваске' },
+  { img:'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=1200&q=80', title:'Наш мастер', caption:'Пекарь с душой — каждая буханка создаётся вручную' },
+];
 
-slides.forEach((_, i) => {
-  const dot = document.createElement('button');
-  dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
-  dot.onclick = () => goTo(i);
-  navEl.appendChild(dot);
-});
-
-function goTo(idx) {
-  current = (idx + slides.length) % slides.length;
-  track.style.transform = `translateX(-${current * 100}%)`;
-  document.querySelectorAll('.carousel-dot').forEach((d,i) => d.classList.toggle('active', i===current));
+function loadSitePhotos() {
+  try {
+    const h = localStorage.getItem('zito_hero'); if (h) document.getElementById('heroImg').src = h;
+    const s = localStorage.getItem('zito_slides');
+    return s ? JSON.parse(s) : defaultSlides;
+  } catch(e) { return defaultSlides; }
 }
-document.getElementById('prevBtn').onclick = () => goTo(current - 1);
-document.getElementById('nextBtn').onclick = () => goTo(current + 1);
-setInterval(() => goTo(current + 1), 5000);
+
+function buildCarousel() {
+  const slides = loadSitePhotos();
+  const track = document.getElementById('carouselTrack');
+  track.innerHTML = '';
+  slides.forEach(s => {
+    const div = document.createElement('div');
+    div.className = 'carousel-slide';
+    div.innerHTML = `<img src="${s.img}" alt="${s.title}" /><div class="slide-caption"><h3>${s.title}</h3><p>${s.caption}</p></div>`;
+    track.appendChild(div);
+  });
+
+  // rebuild dots
+  const navEl = document.getElementById('carouselNav');
+  navEl.innerHTML = '';
+  let current = 0;
+  const allSlides = track.querySelectorAll('.carousel-slide');
+  allSlides.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+    dot.onclick = () => goTo(i);
+    navEl.appendChild(dot);
+  });
+
+  function goTo(idx) {
+    current = (idx + allSlides.length) % allSlides.length;
+    track.style.transform = `translateX(-${current * 100}%)`;
+    document.querySelectorAll('.carousel-dot').forEach((d,i) => d.classList.toggle('active', i===current));
+  }
+  document.getElementById('prevBtn').onclick = () => goTo(current - 1);
+  document.getElementById('nextBtn').onclick = () => goTo(current + 1);
+  if (window._carouselInterval) clearInterval(window._carouselInterval);
+  window._carouselInterval = setInterval(() => goTo(current + 1), 5000);
+}
 
 // ── MODALS ────────────────────────────────────────────────────
 const modalContent = {
@@ -958,6 +953,7 @@ function renderHoursDisplay() {
 }
 
 buildMenu();
+buildCarousel();
 renderHoursDisplay();
 </script>
 </body>
