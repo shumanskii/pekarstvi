@@ -1,558 +1,194 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hospitenza — Curated Restaurant Equipment Solutions</title>
-  
-  <!-- Fonts: Playfair Display + Plus Jakarta Sans -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-
+  <title>Наташа и Андрей Шуманские | Ресторанный консалтинг</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg-color: #FBF9F5;
-      --card-bg: #FFFFFF;
-      --text-main: #1A1A1A;
-      --text-muted: #666666;
-      --accent: #C86D51;
-      --accent-hover: #b05a40;
-      --border-color: #E8E5DF;
-      --font-heading: 'Playfair Display', serif;
-      --font-body: 'Plus Jakarta Sans', sans-serif;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-main);
-      font-family: var(--font-body);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* HEADER */
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.5rem 3rem;
-      border-bottom: 1px solid var(--border-color);
-      background-color: rgba(251, 249, 245, 0.9);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(8px);
-    }
-
-    .logo {
-      font-family: var(--font-heading);
-      font-size: 1.8rem;
-      font-weight: 600;
-      letter-spacing: -0.5px;
-      color: var(--text-main);
-      text-decoration: none;
-    }
-
-    .user-actions {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-    }
-
-    .btn {
-      padding: 0.6rem 1.4rem;
-      border-radius: 40px;
-      border: 1px solid var(--text-main);
-      background: transparent;
-      color: var(--text-main);
-      font-size: 0.9rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .btn-primary {
-      background: var(--text-main);
-      color: #FFF;
-    }
-
-    .btn-primary:hover {
-      background: var(--accent);
-      border-color: var(--accent);
-    }
-
-    .btn-outline:hover {
-      background: rgba(0,0,0,0.05);
-    }
-
-    /* VIEWS CONTAINER */
-    .container {
-      max-width: 1300px;
-      margin: 0 auto;
-      padding: 3rem 2rem;
-    }
-
-    .view { display: none; }
-    .view.active { display: block; }
-
-    /* HERO SECTION (LANDING) */
-    .hero {
-      text-align: center;
-      padding: 4rem 1rem;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .hero h1 {
-      font-family: var(--font-heading);
-      font-size: 3.5rem;
-      line-height: 1.15;
-      margin-bottom: 1.5rem;
-      font-weight: 500;
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      color: var(--text-muted);
-      margin-bottom: 2.5rem;
-    }
-
-    /* LOGIN MODAL */
-    .modal-overlay {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.4);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      backdrop-filter: blur(4px);
-    }
-
-    .modal {
-      background: var(--card-bg);
-      padding: 2.5rem;
-      border-radius: 16px;
-      width: 100%;
-      max-width: 400px;
-      text-align: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-    }
-
-    .modal h2 {
-      font-family: var(--font-heading);
-      margin-bottom: 0.5rem;
-    }
-
-    .modal p {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-bottom: 1.5rem;
-    }
-
-    .modal input {
-      width: 100%;
-      padding: 0.8rem 1rem;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      margin-bottom: 1rem;
-      text-align: center;
-      font-size: 1.1rem;
-      letter-spacing: 2px;
-    }
-
-    /* DASHBOARD / CABINET */
-    .dashboard-header {
-      margin-bottom: 2.5rem;
-    }
-
-    .dashboard-header h2 {
-      font-family: var(--font-heading);
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .controls-bar {
-      display: flex;
-      justify-content: space-between;
-      gap: 1rem;
-      flex-wrap: wrap;
-      margin-bottom: 3rem;
-    }
-
-    .search-input {
-      flex: 1;
-      min-width: 280px;
-      padding: 0.8rem 1.2rem;
-      border: 1px solid var(--border-color);
-      border-radius: 30px;
-      background: var(--card-bg);
-      font-size: 0.95rem;
-    }
-
-    .filter-pills {
-      display: flex;
-      gap: 0.5rem;
-      overflow-x: auto;
-    }
-
-    .pill {
-      padding: 0.6rem 1.2rem;
-      border-radius: 30px;
-      border: 1px solid var(--border-color);
-      background: var(--card-bg);
-      cursor: pointer;
-      font-size: 0.85rem;
-      white-space: nowrap;
-      transition: all 0.2s;
-    }
-
-    .pill.active {
-      background: var(--text-main);
-      color: #FFF;
-      border-color: var(--text-main);
-    }
-
-    /* HORIZONTAL SCROLL CAROUSEL */
-    .collection-section {
-      margin-bottom: 3.5rem;
-    }
-
-    .collection-title {
-      font-family: var(--font-heading);
-      font-size: 1.8rem;
-      margin-bottom: 1.2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .scroll-row {
-      display: flex;
-      gap: 1.5rem;
-      overflow-x: auto;
-      padding-bottom: 1rem;
-      scroll-behavior: smooth;
-    }
-
-    .scroll-row::-webkit-scrollbar {
-      height: 6px;
-    }
-    .scroll-row::-webkit-scrollbar-thumb {
-      background: #DDD;
-      border-radius: 10px;
-    }
-
-    .item-card {
-      min-width: 280px;
-      max-width: 280px;
-      background: var(--card-bg);
-      border-radius: 12px;
-      border: 1px solid var(--border-color);
-      overflow: hidden;
-      cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .item-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 24px rgba(0,0,0,0.06);
-    }
-
-    .item-card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      background: #F0F0F0;
-    }
-
-    .item-card-body {
-      padding: 1.2rem;
-    }
-
-    .item-card-category {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--accent);
-      font-weight: 600;
-      margin-bottom: 0.3rem;
-    }
-
-    .item-card-title {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-      color: var(--text-main);
-    }
-
-    /* PRODUCT DETAIL MODAL */
-    .product-modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.5);
-      z-index: 2000;
-      justify-content: center;
-      align-items: center;
-      padding: 2rem;
-    }
-
-    .product-modal-content {
-      background: var(--card-bg);
-      max-width: 800px;
-      width: 100%;
-      border-radius: 16px;
-      overflow: hidden;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      position: relative;
-      max-height: 90vh;
-    }
-
-    @media(max-width: 768px) {
-      .product-modal-content { grid-template-columns: 1fr; overflow-y: auto; }
-    }
-
-    .product-modal-img img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .product-modal-info {
-      padding: 2.5rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .close-btn {
-      position: absolute;
-      top: 1rem;
-      right: 1.5rem;
-      font-size: 1.8rem;
-      cursor: pointer;
-      color: #999;
-    }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #FBF9F5; color: #1C201E; }
+    .bg-cream { background-color: #FBF9F5; }
+    .bg-card { background-color: #F3EFEA; }
+    .brand-green { background-color: #1F2E2B; }
+    .text-brand-green { color: #1F2E2B; }
+    .border-brand { border-color: #1F2E2B; }
   </style>
 </head>
-<body>
+<body class="antialiased">
+
+  <!-- TOP ANNOUNCEMENT BAR -->
+  <div class="brand-green text-white text-xs sm:text-sm py-2.5 px-4 text-center font-medium">
+    🟢 <strong>Живые онлайн-сессии каждую неделю:</strong> Среда (для работающих) · Четверг (для открытия)
+  </div>
 
   <!-- HEADER -->
-  <header>
-    <a href="#" class="logo" onclick="showView('landing')">Hospitenza</a>
-    <div class="user-actions">
-      <div id="auth-status">
-        <button class="btn btn-outline" onclick="openLoginModal()">Login (Access Code)</button>
-      </div>
+  <header class="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
+    <div class="text-lg font-bold tracking-tight text-brand-green">
+      ШУМАНСКИЕ <span class="font-normal text-sm opacity-75">| Гастро-консалтинг</span>
     </div>
+    <a href="#call-form" class="brand-green text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:opacity-90 transition">
+      Записаться на созвон
+    </a>
   </header>
 
-  <div class="container">
+  <!-- BLOCK 1: HERO SECTION -->
+  <section class="max-w-7xl mx-auto px-6 py-12 md:py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+    <div class="lg:col-span-7 space-y-6">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-card text-xs font-semibold text-brand-green border border-black/5">
+        ✨ Пошаговое построение системы
+      </div>
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-brand-green leading-[1.15]">
+        Системный ресторанный и гостиничный бизнес без хаоса и «пожаров»
+      </h1>
+      <p class="text-lg text-gray-700 leading-relaxed max-w-2xl">
+        Построите автономную систему управления, которая стабильно увеличивает прибыль и высвобождает ваше время для того лайфстайла, который вы любите и который делает вас счастливым.
+      </p>
+      <div class="pt-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+        <a href="#call-form" class="brand-green text-white text-center text-base font-semibold px-8 py-4 rounded-full shadow-lg hover:opacity-95 transition">
+          Забронировать 15-мин созвон
+        </a>
+        <a href="#solutions" class="bg-card text-brand-green text-center text-base font-semibold px-8 py-4 rounded-full border border-black/5 hover:bg-black/5 transition">
+          Выбрать решение
+        </a>
+      </div>
+      <p class="text-xs text-gray-500 pt-1">
+        🔒 Лично разберем ваш кейс, ответим на вопросы и предложим пошаговый план.
+      </p>
+    </div>
     
-    <!-- LANDING VIEW -->
-    <div id="landing-view" class="view active">
-      <section class="hero">
-        <h1>Curated Equipment & Solutions for Restaurateurs</h1>
-        <p>A handpicked database of high-performance thermal units, refrigeration tech, and premium staff uniforms for modern hospitality venues.</p>
-        <button class="btn btn-primary" style="padding: 1rem 2.5rem; font-size: 1.1rem;" onclick="openLoginModal()">Access Library (Demo Pass)</button>
-      </section>
-    </div>
-
-    <!-- DASHBOARD VIEW -->
-    <div id="dashboard-view" class="view">
-      <div class="dashboard-header">
-        <h2>Restaurateur's Vault 2026</h2>
-        <p style="color: var(--text-muted);">Explore hand-curated selections tested for efficiency, durability, and aesthetics.</p>
-      </div>
-
-      <!-- CONTROLS: SEARCH & FILTERS -->
-      <div class="controls-bar">
-        <input type="text" id="searchInput" class="search-input" placeholder="Search equipment by name or keyword..." oninput="filterItems()">
-        <div class="filter-pills">
-          <button class="pill active" onclick="setFilter('all', this)">All Categories</button>
-          <button class="pill" onclick="setFilter('Thermal', this)">Thermal Equipment</button>
-          <button class="pill" onclick="setFilter('Refrigeration', this)">Refrigeration</button>
-          <button class="pill" onclick="setFilter('Uniforms', this)">Uniforms & Style</button>
-        </div>
-      </div>
-
-      <!-- CAROUSEL CONTAINER -->
-      <div id="collectionsContainer"></div>
-    </div>
-
-  </div>
-
-  <!-- LOGIN MODAL -->
-  <div id="loginModal" class="modal-overlay">
-    <div class="modal">
-      <h2>Enter Access Code</h2>
-      <p>Use code <strong>555</strong> to test the member area.</p>
-      <input type="password" id="passCodeInput" placeholder="•••" maxlength="3">
-      <button class="btn btn-primary" style="width: 100%;" onclick="checkCode()">Enter Vault</button>
-      <p id="loginError" style="color: red; margin-top: 1rem; display: none;">Invalid code. Hint: use 555</p>
-    </div>
-  </div>
-
-  <!-- PRODUCT DETAIL MODAL -->
-  <div id="productModal" class="product-modal">
-    <div class="product-modal-content">
-      <span class="close-btn" onclick="closeProductModal()">&times;</span>
-      <div class="product-modal-img">
-        <img id="modalImg" src="" alt="Equipment">
-      </div>
-      <div class="product-modal-info">
-        <div>
-          <div id="modalCategory" class="item-card-category">CATEGORY</div>
-          <h2 id="modalTitle" style="font-family: var(--font-heading); margin-bottom: 1rem;">Title</h2>
-          <p id="modalDesc" style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.95rem;">Description...</p>
-        </div>
-        <div>
-          <a id="modalLink" href="https://www.natashumanska.com/" target="_blank" class="btn btn-primary" style="display: block; text-align: center; text-decoration: none;">View Official Website / Specs</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // DEMO DATA (3 Collections)
-    const equipmentData = [
-      {
-        category: "Thermal",
-        collectionName: "Thermal & Cooking Innovation 2026",
-        items: [
-          { id: 1, title: "Rational iCombi Pro 6-Grid", category: "Thermal", image: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=800&q=80", desc: "Next-gen combi steamer with AI-driven climate management, reducing energy consumption by 28% while maintaining high output precision." },
-          { id: 2, title: "Induction Range Quad-Zone", category: "Thermal", image: "https://images.unsplash.com/photo-1588854337236-6889d631faa8?auto=format&fit=crop&w=800&q=80", desc: "Heavy-duty modular induction cooktop designed for rapid heating and minimal ambient thermal dissipation in compact kitchens." },
-          { id: 3, title: "Josper Charcoal Oven HJC", category: "Thermal", image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80", desc: "Premium enclosed charcoal grill offering authentic smoky flavor profiles with precise airflow control." }
-        ]
-      },
-      {
-        category: "Refrigeration",
-        collectionName: "Precision Refrigeration & Cold Chain",
-        items: [
-          { id: 4, title: "Blast Chiller Touch-Pro 5", category: "Refrigeration", image: "https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?auto=format&fit=crop&w=800&q=80", desc: "Ultra-fast blast freezer capable of bringing core temperature from +90°C to +3°C in under 90 minutes to preserve food texture." },
-          { id: 5, title: "Under-Counter Bar Cooler 3D", category: "Refrigeration", image: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80", desc: "Triple-glazed LED backbar refrigeration with eco-friendly R290 refrigerant and whisper-quiet compressor." }
-        ]
-      },
-      {
-        category: "Uniforms",
-        collectionName: "Modern Staff Apparel & Aprons",
-        items: [
-          { id: 6, title: "Minimalist Linen Chef Jacket", category: "Uniforms", image: "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&w=800&q=80", desc: "Breathable organic linen blend jacket with hidden magnetic snap closures and moisture-wicking back panels." },
-          { id: 7, title: "Canvas & Leather Service Apron", category: "Uniforms", image: "https://images.unsplash.com/photo-1583394293214-28ded15ee548?auto=format&fit=crop&w=800&q=80", desc: "Durable water-resistant canvas apron featuring genuine leather adjustable cross-back straps for ergonomic weight distribution." }
-        ]
-      }
-    ];
-
-    let currentFilter = 'all';
-
-    // NAVIGATION
-    function showView(viewName) {
-      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-      if(viewName === 'landing') document.getElementById('landing-view').classList.add('active');
-      if(viewName === 'dashboard') {
-        document.getElementById('dashboard-view').classList.add('active');
-        renderCollections();
-      }
-    }
-
-    // LOGIN LOGIC (Code 555)
-    function openLoginModal() {
-      document.getElementById('loginModal').style.display = 'flex';
-    }
-
-    function checkCode() {
-      const input = document.getElementById('passCodeInput').value;
-      if(input === '555') {
-        document.getElementById('loginModal').style.display = 'none';
-        document.getElementById('auth-status').innerHTML = `
-          <span style="font-size:0.85rem; color: var(--accent); font-weight:600; margin-right:1rem;">• VIP Access Active</span>
-          <button class="btn btn-outline" onclick="logout()">Logout</button>
-        `;
-        showView('dashboard');
-      } else {
-        document.getElementById('loginError').style.display = 'block';
-      }
-    }
-
-    function logout() {
-      document.getElementById('auth-status').innerHTML = `
-        <button class="btn btn-outline" onclick="openLoginModal()">Login (Access Code)</button>
-      `;
-      showView('landing');
-    }
-
-    // RENDER CAROUSELS
-    function renderCollections() {
-      const container = document.getElementById('collectionsContainer');
-      const searchQuery = document.getElementById('searchInput').value.toLowerCase();
-      container.innerHTML = '';
-
-      equipmentData.forEach(cat => {
-        if(currentFilter !== 'all' && cat.category !== currentFilter) return;
-
-        const filteredItems = cat.items.filter(item => 
-          item.title.toLowerCase().includes(searchQuery) || 
-          item.desc.toLowerCase().includes(searchQuery)
-        );
-
-        if(filteredItems.length === 0) return;
-
-        const section = document.createElement('div');
-        section.className = 'collection-section';
-
-        let itemsHTML = filteredItems.map(item => `
-          <div class="item-card" onclick="openProductModal(${item.id})">
-            <img src="${item.image}" alt="${item.title}">
-            <div class="item-card-body">
-              <div class="item-card-category">${item.category}</div>
-              <div class="item-card-title">${item.title}</div>
-            </div>
+    <div class="lg:col-span-5 relative">
+      <div class="bg-card rounded-3xl p-4 border border-black/5 shadow-sm">
+        <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=800&q=80" alt="Наташа и Андрей Шуманские" class="rounded-2xl object-cover w-full h-[420px]" />
+        <div class="mt-4 p-3 bg-white rounded-xl shadow-sm border border-black/5 flex items-center justify-between">
+          <div>
+            <p class="text-sm font-bold text-brand-green">Наташа и Андрей Шуманские</p>
+            <p class="text-xs text-gray-500">20+ лет в гастро-бизнесе · Европа и СНГ</p>
           </div>
-        `).join('');
+          <span class="text-xs bg-emerald-100 text-emerald-800 font-medium px-2.5 py-1 rounded-full">Практики</span>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        section.innerHTML = `
-          <div class="collection-title">${cat.collectionName}</div>
-          <div class="scroll-row">${itemsHTML}</div>
-        `;
+  <!-- BLOCK 2: SOCIAL PROOF NUMBERS -->
+  <section class="border-y border-black/10 py-10 bg-white/50">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      <div>
+        <p class="text-3xl sm:text-4xl font-bold text-brand-green">20+ лет</p>
+        <p class="text-xs sm:text-sm text-gray-600 mt-1">Опыта управления и запуска</p>
+      </div>
+      <div>
+        <p class="text-3xl sm:text-4xl font-bold text-brand-green">220+</p>
+        <p class="text-xs sm:text-sm text-gray-600 mt-1">Успешных проектов и консультаций</p>
+      </div>
+      <div>
+        <p class="text-3xl sm:text-4xl font-bold text-brand-green">18 стран</p>
+        <p class="text-xs sm:text-sm text-gray-600 mt-1">География наших клиентов</p>
+      </div>
+      <div>
+        <p class="text-3xl sm:text-4xl font-bold text-brand-green">7+ лет</p>
+        <p class="text-xs sm:text-sm text-gray-600 mt-1">Практики и консалтинга в ЕС</p>
+      </div>
+    </div>
+  </section>
 
-        container.appendChild(section);
-      });
-    }
+  <!-- BLOCK 3: REAL CASES & REVIEWS (VISUAL GRID) -->
+  <section class="max-w-7xl mx-auto px-6 py-20">
+    <div class="text-center max-w-3xl mx-auto mb-14">
+      <h2 class="text-3xl sm:text-4xl font-bold text-brand-green">Реальные заведения и результаты наших клиентов</h2>
+      <p class="text-gray-600 mt-3">От камерных кофеен и семейных пекарен в Праге до крупных ресторанов и отелей в 18 странах</p>
+    </div>
 
-    function setFilter(cat, btn) {
-      currentFilter = cat;
-      document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
-      btn.classList.add('active');
-      renderCollections();
-    }
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Case 1 -->
+      <div class="bg-card rounded-2xl overflow-hidden border border-black/5 p-5 space-y-4">
+        <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=600&q=80" class="rounded-xl h-48 w-full object-cover" alt="Кафе Прага">
+        <span class="text-xs font-semibold bg-white text-brand-green px-3 py-1 rounded-full">Ресторан & Кафе · Прага</span>
+        <h3 class="text-lg font-bold text-brand-green">Рост чистой прибыли на +35% за 3 месяца</h3>
+        <p class="text-sm text-gray-600">«Вдрили системы учета, пересмотрели ТТК и провели аудит входной группы. Выручка выросла без увеличения расходов на рекламу.»</p>
+      </div>
+      <!-- Case 2 -->
+      <div class="bg-card rounded-2xl overflow-hidden border border-black/5 p-5 space-y-4">
+        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80" class="rounded-xl h-48 w-full object-cover" alt="Открытие заведения">
+        <span class="text-xs font-semibold bg-white text-brand-green px-3 py-1 rounded-full">Открытие с 0 · Испания</span>
+        <h3 class="text-lg font-bold text-brand-green">Запуск за 60 дней без лишних трат</h3>
+        <p class="text-sm text-gray-600">«Прошли путь от анализа локации и концепции до посадки первых гостей. Избавились от хаоса еще до открытия двери.»</p>
+      </div>
+      <!-- Case 3 -->
+      <div class="bg-card rounded-2xl overflow-hidden border border-black/5 p-5 space-y-4">
+        <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=600&q=80" class="rounded-xl h-48 w-full object-cover" alt="Гостиничный комплекс">
+        <span class="text-xs font-semibold bg-white text-brand-green px-3 py-1 rounded-full">Отель & Бутик-отель</span>
+        <h3 class="text-lg font-bold text-brand-green">Оптимизация ФОТ и настройка автономности</h3>
+        <p class="text-sm text-gray-600">«Собственник наконец-то уехал в отпуск на месяц. Команда работает строго по регламентам и стандартам.»</p>
+      </div>
+    </div>
+  </section>
 
-    function filterItems() {
-      renderCollections();
-    }
+  <!-- BLOCK 4: MANIFEST (HUMAN EXPERTISE VS CHATGPT) -->
+  <section class="max-w-7xl mx-auto px-6 py-16">
+    <div class="brand-green text-white rounded-3xl p-8 sm:p-12 relative overflow-hidden">
+      <div class="max-w-3xl space-y-6 relative z-10">
+        <span class="bg-white/10 text-emerald-300 text-xs font-semibold px-3.5 py-1.5 rounded-full uppercase tracking-wider">Наш манифест</span>
+        <h2 class="text-3xl sm:text-4xl font-bold leading-tight">
+          Вы никогда не получите этих решений от ChatGPT. Мы гарантируем это 100%.
+        </h2>
+        <p class="text-gray-300 text-base leading-relaxed">
+          ИИ учится на общедоступной базовой теории из интернета. Но нейросеть не стояла на кухне в Праге, не решала конфликты с европейской бюрократией, не искала воровство в баре и не вытаскивала заведения из убытков.
+        </p>
+        <p class="text-gray-300 text-base leading-relaxed">
+          Все наши материалы, бланки, ТТК и алгоритмы основаны на <strong>личном 20-летнем опыте и живой практике в 18 странах</strong>.
+        </p>
+      </div>
+    </div>
+  </section>
 
-    // PRODUCT MODAL
-    function openProductModal(id) {
-      let foundItem = null;
-      equipmentData.forEach(c => {
-        c.items.forEach(i => { if(i.id === id) foundItem = i; });
-      });
+  <!-- BLOCK 5: FORM / STRATEGIC CALL (MAIN CONVERTER) -->
+  <section id="call-form" class="max-w-3xl mx-auto px-6 py-20">
+    <div class="bg-white rounded-3xl p-8 sm:p-12 shadow-xl border border-black/5 space-y-6">
+      <div class="text-center space-y-2">
+        <h2 class="text-2xl sm:text-3xl font-bold text-brand-green">Запишитесь на 15-минутный стратегический созвон</h2>
+        <p class="text-sm text-gray-600">Заполните короткую анкету, и мы выберем удобное время для личного Zoom-разбора вашего заведения.</p>
+      </div>
 
-      if(foundItem) {
-        document.getElementById('modalImg').src = foundItem.image;
-        document.getElementById('modalCategory').innerText = foundItem.category;
-        document.getElementById('modalTitle').innerText = foundItem.title;
-        document.getElementById('modalDesc').innerText = foundItem.desc;
-        document.getElementById('productModal').style.display = 'flex';
-      }
-    }
+      <form class="space-y-4 pt-4">
+        <div>
+          <label class="block text-xs font-semibold text-gray-700 mb-1">ИМЯ И ФАМИЛИЯ *</label>
+          <input type="text" placeholder="Например: Александр" class="w-full px-4 py-3 rounded-xl bg-card border border-black/5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-800">
+        </div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-1">EMAIL / TELEGRAM *</label>
+            <input type="text" placeholder="@username или email" class="w-full px-4 py-3 rounded-xl bg-card border border-black/5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-800">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-1">ССЫЛКА НА ЗАВЕДЕНИЕ / ИНСТАГРАМ</label>
+            <input type="text" placeholder="instagram.com/... или сайт" class="w-full px-4 py-3 rounded-xl bg-card border border-black/5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-800">
+          </div>
+        </div>
 
-    function closeProductModal() {
-      document.getElementById('productModal').style.display = 'none';
-    }
-  </script>
+        <div>
+          <label class="block text-xs font-semibold text-gray-700 mb-1">ПЛАНИРУЕМЫЙ БЮДЖЕТ НА КОНСАЛТИНГ / РАЗВИТИЕ *</label>
+          <select class="w-full px-4 py-3 rounded-xl bg-card border border-black/5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-800">
+            <option>До 500 €</option>
+            <option>500 € – 1 500 €</option>
+            <option>1 500 € – 3 000 €</option>
+            <option>Более 3 000 €</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-gray-700 mb-1">ВАШ ГЛАВНЫЙ ВОПРОС ИЛИ СИТУАЦИЯ</label>
+          <textarea rows="3" placeholder="Опишите коротко ваш запрос..." class="w-full px-4 py-3 rounded-xl bg-card border border-black/5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-800"></textarea>
+        </div>
+
+        <button type="button" class="w-full brand-green text-white font-bold py-4 rounded-xl shadow-lg hover:opacity-95 transition text-base">
+          Забронировать созвон с Шуманскими
+        </button>
+      </form>
+    </div>
+  </section>
+
 </body>
 </html>
