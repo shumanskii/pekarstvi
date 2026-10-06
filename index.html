@@ -1,1046 +1,558 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
-<title>ŽITO — Квасковая пекарня · Praha</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --cream: #F7F2E8;
-    --warm-white: #FDF9F3;
-    --rye: #8B6914;
-    --dark-rye: #5C4209;
-    --crust: #C4892A;
-    --sourdough: #D4A843;
-    --forest: #3D5A3E;
-    --dark-forest: #2A3D2B;
-    --charcoal: #2C2416;
-    --muted: #8A7B65;
-    --border: #E0D5C0;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html { scroll-behavior: smooth; }
-  body { font-family: 'Nunito', sans-serif; background: var(--warm-white); color: var(--charcoal); overflow-x: hidden; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hospitenza — Curated Restaurant Equipment Solutions</title>
+  
+  <!-- Fonts: Playfair Display + Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-  /* NAV */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 16px 48px;
-    background: rgba(247,242,232,0.95);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border);
-  }
-  .logo {
-    display: flex; align-items: center; gap: 12px; text-decoration: none;
-  }
-  .logo-icon {
-    width: 44px; height: 44px;
-    background: var(--forest);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px;
-  }
-  .logo-text { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--dark-rye); letter-spacing: 2px; }
-  .logo-sub { font-size: 10px; color: var(--muted); letter-spacing: 3px; text-transform: uppercase; }
-  nav ul { display: flex; gap: 32px; list-style: none; }
-  nav ul a { text-decoration: none; color: var(--charcoal); font-size: 13px; letter-spacing: 1px; text-transform: uppercase; font-weight: 600; transition: color 0.2s; }
-  nav ul a:hover { color: var(--forest); }
-  .nav-cta {
-    background: var(--forest); color: white; border: none; padding: 10px 24px;
-    border-radius: 4px; font-family: 'Nunito', sans-serif; font-size: 13px;
-    font-weight: 700; letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
-    transition: background 0.2s;
-  }
-  .nav-cta:hover { background: var(--dark-forest); }
+  <style>
+    :root {
+      --bg-color: #FBF9F5;
+      --card-bg: #FFFFFF;
+      --text-main: #1A1A1A;
+      --text-muted: #666666;
+      --accent: #C86D51;
+      --accent-hover: #b05a40;
+      --border-color: #E8E5DF;
+      --font-heading: 'Playfair Display', serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
 
-  /* HERO */
-  .hero {
-    min-height: 100vh;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    position: relative;
-    padding-top: 76px;
-  }
-  .hero-image-side {
-    position: relative;
-    overflow: hidden;
-  }
-  .hero-image-side img {
-    width: 100%; height: 100%; object-fit: cover;
-    filter: brightness(0.85) saturate(0.9);
-  }
-  .hero-image-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(to right, transparent 60%, var(--warm-white));
-  }
-  .hero-content {
-    display: flex; flex-direction: column; justify-content: center;
-    padding: 80px 64px 80px 48px;
-    position: relative;
-  }
-  .hero-tag {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: var(--cream); border: 1px solid var(--border);
-    padding: 6px 16px; border-radius: 20px;
-    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
-    color: var(--forest); font-weight: 700; width: fit-content; margin-bottom: 28px;
-  }
-  .hero-tag::before { content: '●'; font-size: 8px; }
-  .hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(36px, 4vw, 58px);
-    font-weight: 900; line-height: 1.1;
-    color: var(--dark-rye); margin-bottom: 12px;
-  }
-  .hero h1 em { font-style: italic; color: var(--forest); }
-  .hero-subtitle {
-    font-family: 'Playfair Display', serif; font-style: italic;
-    font-size: 18px; color: var(--muted); margin-bottom: 24px; line-height: 1.5;
-  }
-  .hero-desc { font-size: 15px; color: var(--charcoal); line-height: 1.8; margin-bottom: 40px; max-width: 420px; }
-  .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
-  .btn-primary {
-    background: var(--forest); color: white; padding: 16px 36px;
-    border-radius: 4px; text-decoration: none; font-weight: 700;
-    font-size: 14px; letter-spacing: 1px; text-transform: uppercase;
-    transition: all 0.2s; border: 2px solid var(--forest);
-  }
-  .btn-primary:hover { background: var(--dark-forest); border-color: var(--dark-forest); }
-  .btn-outline {
-    color: var(--dark-rye); padding: 16px 36px;
-    border-radius: 4px; text-decoration: none; font-weight: 700;
-    font-size: 14px; letter-spacing: 1px; text-transform: uppercase;
-    border: 2px solid var(--border); transition: all 0.2s;
-  }
-  .btn-outline:hover { border-color: var(--rye); color: var(--rye); }
-  .hero-badges {
-    display: flex; gap: 32px; margin-top: 48px;
-    padding-top: 32px; border-top: 1px solid var(--border);
-  }
-  .hero-badge { text-align: center; }
-  .hero-badge strong { display: block; font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 900; color: var(--dark-rye); }
-  .hero-badge span { font-size: 11px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
 
-  /* ABOUT STRIP */
-  .about-strip {
-    background: var(--forest); color: white;
-    padding: 32px 48px;
-    display: flex; align-items: center; justify-content: center; gap: 64px;
-    flex-wrap: wrap;
-  }
-  .strip-item { display: flex; align-items: center; gap: 14px; }
-  .strip-icon { font-size: 28px; }
-  .strip-text strong { display: block; font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; }
-  .strip-text span { font-size: 12px; opacity: 0.75; letter-spacing: 1px; }
+    /* HEADER */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 3rem;
+      border-bottom: 1px solid var(--border-color);
+      background-color: rgba(251, 249, 245, 0.9);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(8px);
+    }
 
-  /* SECTION WRAPPER */
-  section { padding: 96px 48px; }
-  .section-tag {
-    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
-    color: var(--forest); font-weight: 700; margin-bottom: 16px;
-    display: flex; align-items: center; gap: 10px;
-  }
-  .section-tag::before { content: ''; width: 32px; height: 2px; background: var(--sourdough); display: inline-block; }
-  h2.section-title {
-    font-family: 'Playfair Display', serif; font-size: clamp(28px, 3vw, 46px);
-    font-weight: 900; color: var(--dark-rye); line-height: 1.15; margin-bottom: 16px;
-  }
-  h2.section-title em { font-style: italic; color: var(--forest); }
-  .section-desc { font-size: 16px; color: var(--muted); max-width: 560px; line-height: 1.8; margin-bottom: 56px; }
+    .logo {
+      font-family: var(--font-heading);
+      font-size: 1.8rem;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+      color: var(--text-main);
+      text-decoration: none;
+    }
 
-  /* CAROUSEL */
-  .carousel-section { background: var(--cream); }
-  .carousel-wrap { position: relative; overflow: hidden; border-radius: 8px; }
-  .carousel-track { display: flex; transition: transform 0.5s ease; }
-  .carousel-slide {
-    min-width: 100%; height: 480px; position: relative; overflow: hidden;
-  }
-  .carousel-slide img { width: 100%; height: 100%; object-fit: cover; }
-  .slide-caption {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    padding: 32px 40px;
-    background: linear-gradient(to top, rgba(44,36,22,0.85), transparent);
-    color: white;
-  }
-  .slide-caption h3 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; margin-bottom: 4px; }
-  .slide-caption p { font-size: 13px; opacity: 0.8; }
-  .carousel-nav {
-    display: flex; gap: 12px; justify-content: center; margin-top: 24px;
-  }
-  .carousel-dot {
-    width: 10px; height: 10px; border-radius: 50%;
-    background: var(--border); cursor: pointer; transition: background 0.2s;
-    border: none;
-  }
-  .carousel-dot.active { background: var(--forest); }
-  .carousel-arrows {
-    position: absolute; top: 50%; transform: translateY(-50%);
-    width: 100%; display: flex; justify-content: space-between; padding: 0 16px; pointer-events: none;
-  }
-  .carousel-arrow {
-    pointer-events: all; width: 44px; height: 44px;
-    background: rgba(247,242,232,0.9); border: 1px solid var(--border);
-    border-radius: 50%; display: flex; align-items: center; justify-content: center;
-    cursor: pointer; font-size: 18px; color: var(--dark-rye);
-    transition: all 0.2s;
-  }
-  .carousel-arrow:hover { background: white; }
+    .user-actions {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
 
-  /* MENU / ORDER */
-  .menu-section { background: var(--warm-white); }
-  .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
-  .menu-card {
-    background: white; border-radius: 8px; overflow: hidden;
-    border: 1px solid var(--border); transition: box-shadow 0.2s, transform 0.2s;
-  }
-  .menu-card:hover { box-shadow: 0 8px 32px rgba(44,36,22,0.12); transform: translateY(-2px); }
-  .menu-card-img { width: 100%; height: 160px; object-fit: cover; display: block; }
-  .menu-card-body { padding: 16px; }
-  .menu-card-cat { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--forest); font-weight: 700; margin-bottom: 6px; }
-  .menu-card-name { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: var(--dark-rye); margin-bottom: 4px; }
-  .menu-card-desc { font-size: 12px; color: var(--muted); margin-bottom: 12px; line-height: 1.5; }
-  .menu-card-footer { display: flex; align-items: center; justify-content: space-between; }
-  .menu-card-price { font-weight: 700; font-size: 17px; color: var(--dark-rye); }
-  .menu-card-price span { font-size: 11px; color: var(--muted); font-weight: 400; }
-  .qty-control { display: flex; align-items: center; gap: 8px; }
-  .qty-btn {
-    width: 28px; height: 28px; border: 1px solid var(--border);
-    border-radius: 4px; background: var(--cream); cursor: pointer;
-    font-size: 16px; color: var(--dark-rye); display: flex; align-items: center; justify-content: center;
-    transition: background 0.15s;
-  }
-  .qty-btn:hover { background: var(--border); }
-  .qty-val { font-weight: 700; font-size: 15px; min-width: 20px; text-align: center; }
+    .btn {
+      padding: 0.6rem 1.4rem;
+      border-radius: 40px;
+      border: 1px solid var(--text-main);
+      background: transparent;
+      color: var(--text-main);
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
 
-  /* ORDER SUMMARY */
-  .order-bar {
-    position: sticky; bottom: 0; left: 0; right: 0; z-index: 50;
-    background: var(--forest); color: white;
-    padding: 16px 48px;
-    display: flex; align-items: center; justify-content: space-between;
-    transform: translateY(100%);
-    transition: transform 0.3s;
-    box-shadow: 0 -4px 32px rgba(44,36,22,0.2);
-  }
-  .order-bar.visible { transform: translateY(0); }
-  .order-bar-info { display: flex; align-items: center; gap: 24px; }
-  .order-bar-count { font-size: 13px; opacity: 0.8; }
-  .order-bar-total { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; }
-  .order-bar-btn {
-    background: white; color: var(--forest);
-    border: none; padding: 14px 36px; border-radius: 4px;
-    font-family: 'Nunito', sans-serif; font-weight: 700;
-    font-size: 14px; letter-spacing: 1px; text-transform: uppercase;
-    cursor: pointer; transition: background 0.2s;
-  }
-  .order-bar-btn:hover { background: var(--cream); }
+    .btn-primary {
+      background: var(--text-main);
+      color: #FFF;
+    }
 
-  .date-tabs { display: flex; gap: 10px; flex-wrap: wrap; }
-  .date-tab {
-    flex: 1; min-width: 120px; padding: 12px 10px; border: 1.5px solid var(--border);
-    border-radius: 8px; text-align: center; cursor: pointer;
-    background: white; transition: all 0.15s;
-  }
-  .date-tab:hover { border-color: var(--forest); }
-  .date-tab.selected { background: var(--forest); color: white; border-color: var(--forest); }
-  .date-tab .tab-day { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; opacity: 0.7; margin-bottom: 2px; }
-  .date-tab .tab-date { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; }
-  .date-tab .tab-weekday { font-size: 12px; margin-top: 2px; opacity: 0.8; }
-  .date-tab.selected .tab-day, .date-tab.selected .tab-weekday { opacity: 0.85; }
+    .btn-primary:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
 
-  /* MAP SECTION */
-  .map-section {
-    background: var(--cream);
-    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
-    padding: 0; overflow: hidden;
-  }
-  .map-info { padding: 80px 64px; display: flex; flex-direction: column; justify-content: center; }
-  .map-embed { height: 100%; min-height: 400px; }
-  .map-embed iframe { width: 100%; height: 100%; border: none; min-height: 400px; }
-  .address-block { margin-bottom: 32px; }
-  .address-block h3 { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--dark-rye); margin-bottom: 8px; }
-  .address-block p { font-size: 15px; color: var(--charcoal); line-height: 1.8; }
-  .address-block a { color: var(--forest); text-decoration: none; font-weight: 600; }
-  .hours-grid { display: grid; grid-template-columns: auto 1fr; gap: 4px 20px; font-size: 14px; margin-top: 16px; }
-  .hours-grid .day { color: var(--muted); }
-  .hours-grid .time { font-weight: 600; color: var(--charcoal); }
+    .btn-outline:hover {
+      background: rgba(0,0,0,0.05);
+    }
 
-  /* FOOTER */
-  footer {
-    background: var(--charcoal); color: white;
-    padding: 48px 48px 32px;
-  }
-  .footer-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px; flex-wrap: wrap; gap: 32px; }
-  .footer-logo { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 900; letter-spacing: 4px; }
-  .footer-logo span { display: block; font-family: 'Nunito', sans-serif; font-size: 11px; letter-spacing: 3px; opacity: 0.5; font-weight: 400; margin-top: 4px; }
-  .footer-policies { display: flex; gap: 12px; flex-wrap: wrap; }
-  .policy-btn {
-    padding: 8px 16px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.15);
-    background: transparent; color: rgba(255,255,255,0.7); cursor: pointer;
-    font-family: 'Nunito', sans-serif; font-size: 12px; letter-spacing: 0.5px;
-    transition: all 0.2s;
-  }
-  .policy-btn:hover { background: rgba(255,255,255,0.1); color: white; }
-  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
-  .footer-copy { font-size: 12px; opacity: 0.4; }
-  .footer-credit { font-size: 12px; opacity: 0.4; }
-  .footer-credit a { color: rgba(255,255,255,0.6); text-decoration: none; }
-  .footer-credit a:hover { color: white; }
+    /* VIEWS CONTAINER */
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
 
-  /* MODAL */
-  .modal-overlay {
-    display: none; position: fixed; inset: 0; z-index: 200;
-    background: rgba(44,36,22,0.6); backdrop-filter: blur(4px);
-    align-items: center; justify-content: center; padding: 24px;
-  }
-  .modal-overlay.open { display: flex; }
-  .modal {
-    background: white; border-radius: 12px; max-width: 480px; width: 100%;
-    padding: 40px; max-height: 80vh; overflow-y: auto;
-  }
-  .modal h3 { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 900; color: var(--dark-rye); margin-bottom: 8px; }
-  .modal p { font-size: 14px; color: var(--muted); margin-bottom: 24px; line-height: 1.6; }
-  .modal-close { float: right; background: none; border: none; font-size: 24px; cursor: pointer; color: var(--muted); margin: -8px -8px 0 0; }
+    .view { display: none; }
+    .view.active { display: block; }
 
-  /* ORDER FORM MODAL */
-  .order-modal-overlay {
-    display: none; position: fixed; inset: 0; z-index: 300;
-    background: rgba(44,36,22,0.7); backdrop-filter: blur(6px);
-    align-items: center; justify-content: center; padding: 20px;
-  }
-  .order-modal-overlay.open { display: flex; }
-  .order-modal {
-    background: white; border-radius: 16px; max-width: 520px; width: 100%;
-    max-height: 90vh; overflow-y: auto;
-    box-shadow: 0 24px 80px rgba(44,36,22,0.3);
-  }
-  .order-modal-header {
-    background: var(--forest); color: white; padding: 28px 32px 24px;
-    border-radius: 16px 16px 0 0;
-    display: flex; justify-content: space-between; align-items: flex-start;
-  }
-  .order-modal-header h3 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; margin-bottom: 4px; }
-  .order-modal-header p { font-size: 13px; opacity: 0.75; }
-  .order-modal-close { background: rgba(255,255,255,0.15); border: none; color: white; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-left: 16px; }
-  .order-modal-body { padding: 28px 32px; }
-  .order-summary-list { background: var(--cream); border-radius: 8px; padding: 16px; margin-bottom: 24px; }
-  .order-summary-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: 13px; border-bottom: 1px solid var(--border); }
-  .order-summary-item:last-child { border: none; font-weight: 700; font-size: 15px; padding-top: 10px; color: var(--dark-rye); }
-  .form-group { margin-bottom: 18px; }
-  .form-label { display: block; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
-  .form-input {
-    width: 100%; padding: 12px 16px; border: 1.5px solid var(--border);
-    border-radius: 8px; font-family: 'Nunito', sans-serif; font-size: 15px;
-    color: var(--charcoal); background: white; outline: none; transition: border-color 0.2s;
-  }
-  .form-input:focus { border-color: var(--forest); }
-  .form-input.error { border-color: #e05252; }
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .time-slots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-  .time-slot {
-    padding: 10px 6px; border: 1.5px solid var(--border);
-    border-radius: 8px; text-align: center; cursor: pointer;
-    font-size: 13px; font-weight: 600; color: var(--charcoal);
-    transition: all 0.15s; background: white;
-  }
-  .time-slot:hover { border-color: var(--forest); color: var(--forest); }
-  .time-slot.selected { background: var(--forest); color: white; border-color: var(--forest); }
-  .time-slot.disabled { opacity: 0.35; cursor: not-allowed; }
-  .form-submit {
-    width: 100%; padding: 16px; background: var(--forest); color: white;
-    border: none; border-radius: 8px; font-family: 'Nunito', sans-serif;
-    font-size: 15px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
-    cursor: pointer; transition: background 0.2s; margin-top: 8px;
-  }
-  .form-submit:hover { background: var(--dark-forest); }
-  .phone-prefix { position: relative; }
-  .phone-prefix::before { content: '+420'; position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 15px; color: var(--charcoal); font-weight: 600; pointer-events: none; z-index:1; }
-  .phone-prefix .form-input { padding-left: 58px; }
+    /* HERO SECTION (LANDING) */
+    .hero {
+      text-align: center;
+      padding: 4rem 1rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
 
-  @media (max-width: 768px) {
-    nav { padding: 14px 20px; }
-    nav ul { display: none; }
-    .hero { grid-template-columns: 1fr; }
-    .hero-image-side { height: 50vh; }
-    .hero-content { padding: 40px 24px; }
-    section { padding: 64px 24px; }
-    .map-section { grid-template-columns: 1fr; }
-    .map-info { padding: 48px 24px; }
-    .about-strip { gap: 24px; padding: 24px; }
-    .order-bar { padding: 14px 20px; }
-    footer { padding: 40px 24px 24px; }
-    .footer-top { flex-direction: column; }
-  }
-</style>
+    .hero h1 {
+      font-family: var(--font-heading);
+      font-size: 3.5rem;
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      margin-bottom: 2.5rem;
+    }
+
+    /* LOGIN MODAL */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.4);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal {
+      background: var(--card-bg);
+      padding: 2.5rem;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+
+    .modal h2 {
+      font-family: var(--font-heading);
+      margin-bottom: 0.5rem;
+    }
+
+    .modal p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .modal input {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      text-align: center;
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+    }
+
+    /* DASHBOARD / CABINET */
+    .dashboard-header {
+      margin-bottom: 2.5rem;
+    }
+
+    .dashboard-header h2 {
+      font-family: var(--font-heading);
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .controls-bar {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+
+    .search-input {
+      flex: 1;
+      min-width: 280px;
+      padding: 0.8rem 1.2rem;
+      border: 1px solid var(--border-color);
+      border-radius: 30px;
+      background: var(--card-bg);
+      font-size: 0.95rem;
+    }
+
+    .filter-pills {
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+    }
+
+    .pill {
+      padding: 0.6rem 1.2rem;
+      border-radius: 30px;
+      border: 1px solid var(--border-color);
+      background: var(--card-bg);
+      cursor: pointer;
+      font-size: 0.85rem;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .pill.active {
+      background: var(--text-main);
+      color: #FFF;
+      border-color: var(--text-main);
+    }
+
+    /* HORIZONTAL SCROLL CAROUSEL */
+    .collection-section {
+      margin-bottom: 3.5rem;
+    }
+
+    .collection-title {
+      font-family: var(--font-heading);
+      font-size: 1.8rem;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .scroll-row {
+      display: flex;
+      gap: 1.5rem;
+      overflow-x: auto;
+      padding-bottom: 1rem;
+      scroll-behavior: smooth;
+    }
+
+    .scroll-row::-webkit-scrollbar {
+      height: 6px;
+    }
+    .scroll-row::-webkit-scrollbar-thumb {
+      background: #DDD;
+      border-radius: 10px;
+    }
+
+    .item-card {
+      min-width: 280px;
+      max-width: 280px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .item-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.06);
+    }
+
+    .item-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      background: #F0F0F0;
+    }
+
+    .item-card-body {
+      padding: 1.2rem;
+    }
+
+    .item-card-category {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+
+    .item-card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--text-main);
+    }
+
+    /* PRODUCT DETAIL MODAL */
+    .product-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    .product-modal-content {
+      background: var(--card-bg);
+      max-width: 800px;
+      width: 100%;
+      border-radius: 16px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      max-height: 90vh;
+    }
+
+    @media(max-width: 768px) {
+      .product-modal-content { grid-template-columns: 1fr; overflow-y: auto; }
+    }
+
+    .product-modal-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .product-modal-info {
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: #999;
+    }
+  </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <a href="#" class="logo">
-    <div class="logo-icon">🌾</div>
-    <div>
-      <div class="logo-text">ŽITO</div>
-      <div class="logo-sub">řemeslná pekárna</div>
-    </div>
-  </a>
-  <ul>
-    <li><a href="#about">О нас</a></li>
-    <li><a href="#gallery">Галерея</a></li>
-    <li><a href="#order">Меню</a></li>
-    <li><a href="#map">Адрес</a></li>
-  </ul>
-  <button class="nav-cta" onclick="document.getElementById('order').scrollIntoView({behavior:'smooth'})">Заказать</button>
-</nav>
-
-<!-- HERO -->
-<section class="hero" style="padding:0;padding-top:76px;">
-  <div class="hero-image-side">
-    <img id="heroImg" src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=900&q=80" alt="Пекарь за работой" />
-    <div class="hero-image-overlay"></div>
-  </div>
-  <div class="hero-content">
-    <div class="hero-tag">Квасковый хлеб · Praha 2 · Vinohrady</div>
-    <h1>Хлеб, который<br>помнит <em>традицию</em></h1>
-    <p class="hero-subtitle">Живая закваска. Каменная мельница. Честный хлеб.</p>
-    <p class="hero-desc">Мы печём хлеб, пирожки, синабоны и багеты исключительно на натуральной закваске — без химических добавок, без спешки. Только мука, вода, закваска и время.</p>
-    <div class="hero-btns">
-      <a href="#order" class="btn-primary">Сделать заказ</a>
-      <a href="#gallery" class="btn-outline">Посмотреть галерею</a>
-    </div>
-    <div class="hero-badges">
-      <div class="hero-badge"><strong>100%</strong><span>Закваска</span></div>
-      <div class="hero-badge"><strong>20+</strong><span>Позиций</span></div>
-      <div class="hero-badge"><strong>Ежедн.</strong><span>Свежая выпечка</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- ABOUT STRIP -->
-<div class="about-strip" id="about">
-  <div class="strip-item">
-    <div class="strip-icon">🌾</div>
-    <div class="strip-text">
-      <strong>Натуральная закваска</strong>
-      <span>Без дрожжей и улучшителей</span>
-    </div>
-  </div>
-  <div class="strip-item">
-    <div class="strip-icon">🔥</div>
-    <div class="strip-text">
-      <strong>Печём каждый день</strong>
-      <span>Только свежая выпечка</span>
-    </div>
-  </div>
-  <div class="strip-item">
-    <div class="strip-icon">🌿</div>
-    <div class="strip-text">
-      <strong>Натуральные ингредиенты</strong>
-      <span>Без консервантов и ароматизаторов</span>
-    </div>
-  </div>
-  <div class="strip-item">
-    <div class="strip-icon">📦</div>
-    <div class="strip-text">
-      <strong>Заказ на WhatsApp</strong>
-      <span>Готово к вашему времени</span>
-    </div>
-  </div>
-</div>
-
-<!-- CAROUSEL -->
-<section class="carousel-section" id="gallery">
-  <div class="section-tag">Наша пекарня</div>
-  <h2 class="section-title">ŽITO řemeslná<br><em>pekárna</em></h2>
-  <p class="section-desc">Каждый буханка — маленький шедевр. Мы с гордостью печём для жителей Виноград уже несколько лет.</p>
-
-  <div class="carousel-wrap">
-    <div class="carousel-track" id="carouselTrack">
-    </div>
-    <div class="carousel-arrows">
-      <button class="carousel-arrow" id="prevBtn">←</button>
-      <button class="carousel-arrow" id="nextBtn">→</button>
-    </div>
-  </div>
-  <div class="carousel-nav" id="carouselNav"></div>
-</section>
-
-<!-- ORDER / MENU -->
-<section class="menu-section" id="order">
-  <div class="section-tag">Меню и заказ</div>
-  <h2 class="section-title">Закажите <em>онлайн</em></h2>
-  <p class="section-desc">Выберите позиции, укажите количество — заказ отправится к нам в WhatsApp, и мы подтвердим время готовности.</p>
-
-  <div id="menuContainer"></div>
-</section>
-
-<!-- ORDER BAR -->
-<div class="order-bar" id="orderBar">
-  <div class="order-bar-info">
-    <span class="order-bar-count" id="orderCount">0 позиций</span>
-    <span class="order-bar-total" id="orderTotal">0 Kč</span>
-  </div>
-  <button class="order-bar-btn" onclick="openOrderForm()">Оформить заказ 📋</button>
-</div>
-
-<!-- MAP -->
-<section class="map-section" id="map" style="padding:0;">
-  <div class="map-info">
-    <div class="section-tag">Где нас найти</div>
-    <h2 class="section-title" style="margin-bottom:32px;">Приходите<br><em>в гости</em></h2>
-    <div class="address-block">
-      <h3>📍 Адрес</h3>
-      <p>Blanická 772/6<br>120 00 Praha 2 — Vinohrady</p>
-    </div>
-    <div class="address-block">
-      <h3>⏰ Часы работы</h3>
-      <div class="hours-grid" id="hoursDisplay"></div>
-    </div>
-    <div class="address-block">
-      <h3>📞 Контакты</h3>
-      <p>WhatsApp: <a href="https://wa.me/420608507366">+420 608 507 366</a><br>
-      Заказы принимаем с 8:00 до 18:00</p>
-    </div>
-  </div>
-  <div class="map-embed">
-    <iframe
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2560.6!2d14.4390647!3d50.0746494!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470b952ae0e2802f%3A0x7a173c0bc5a5ceef!2s%C5%BDITO%20%C5%99emesln%C3%A1%20pek%C3%A1rna!5e0!3m2!1sru!2scz!4v1711900000000"
-      allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-    </iframe>
-  </div>
-</section>
-
-<!-- ORDER FORM MODAL -->
-<div class="order-modal-overlay" id="orderFormOverlay" onclick="if(event.target===this)closeOrderForm()">
-  <div class="order-modal">
-    <div class="order-modal-header">
-      <div>
-        <h3>🌾 Оформление заказа</h3>
-        <p>Заполните данные — заказ уйдёт в WhatsApp</p>
+  <!-- HEADER -->
+  <header>
+    <a href="#" class="logo" onclick="showView('landing')">Hospitenza</a>
+    <div class="user-actions">
+      <div id="auth-status">
+        <button class="btn btn-outline" onclick="openLoginModal()">Login (Access Code)</button>
       </div>
-      <button class="order-modal-close" onclick="closeOrderForm()">×</button>
     </div>
-    <div class="order-modal-body">
-      <!-- Order summary -->
-      <div class="order-summary-list" id="formSummaryList"></div>
+  </header>
 
-      <!-- Name -->
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Имя *</label>
-          <input class="form-input" id="fieldName" type="text" placeholder="Иван" />
-        </div>
-        <div class="form-group">
-          <label class="form-label">Фамилия *</label>
-          <input class="form-input" id="fieldSurname" type="text" placeholder="Новак" />
+  <div class="container">
+    
+    <!-- LANDING VIEW -->
+    <div id="landing-view" class="view active">
+      <section class="hero">
+        <h1>Curated Equipment & Solutions for Restaurateurs</h1>
+        <p>A handpicked database of high-performance thermal units, refrigeration tech, and premium staff uniforms for modern hospitality venues.</p>
+        <button class="btn btn-primary" style="padding: 1rem 2.5rem; font-size: 1.1rem;" onclick="openLoginModal()">Access Library (Demo Pass)</button>
+      </section>
+    </div>
+
+    <!-- DASHBOARD VIEW -->
+    <div id="dashboard-view" class="view">
+      <div class="dashboard-header">
+        <h2>Restaurateur's Vault 2026</h2>
+        <p style="color: var(--text-muted);">Explore hand-curated selections tested for efficiency, durability, and aesthetics.</p>
+      </div>
+
+      <!-- CONTROLS: SEARCH & FILTERS -->
+      <div class="controls-bar">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search equipment by name or keyword..." oninput="filterItems()">
+        <div class="filter-pills">
+          <button class="pill active" onclick="setFilter('all', this)">All Categories</button>
+          <button class="pill" onclick="setFilter('Thermal', this)">Thermal Equipment</button>
+          <button class="pill" onclick="setFilter('Refrigeration', this)">Refrigeration</button>
+          <button class="pill" onclick="setFilter('Uniforms', this)">Uniforms & Style</button>
         </div>
       </div>
 
-      <!-- Phone -->
-      <div class="form-group">
-        <label class="form-label">Телефон * (Чехия)</label>
-        <div class="phone-prefix">
-          <input class="form-input" id="fieldPhone" type="tel" placeholder="606 123 456" maxlength="12" oninput="formatPhone(this)" />
+      <!-- CAROUSEL CONTAINER -->
+      <div id="collectionsContainer"></div>
+    </div>
+
+  </div>
+
+  <!-- LOGIN MODAL -->
+  <div id="loginModal" class="modal-overlay">
+    <div class="modal">
+      <h2>Enter Access Code</h2>
+      <p>Use code <strong>555</strong> to test the member area.</p>
+      <input type="password" id="passCodeInput" placeholder="•••" maxlength="3">
+      <button class="btn btn-primary" style="width: 100%;" onclick="checkCode()">Enter Vault</button>
+      <p id="loginError" style="color: red; margin-top: 1rem; display: none;">Invalid code. Hint: use 555</p>
+    </div>
+  </div>
+
+  <!-- PRODUCT DETAIL MODAL -->
+  <div id="productModal" class="product-modal">
+    <div class="product-modal-content">
+      <span class="close-btn" onclick="closeProductModal()">&times;</span>
+      <div class="product-modal-img">
+        <img id="modalImg" src="" alt="Equipment">
+      </div>
+      <div class="product-modal-info">
+        <div>
+          <div id="modalCategory" class="item-card-category">CATEGORY</div>
+          <h2 id="modalTitle" style="font-family: var(--font-heading); margin-bottom: 1rem;">Title</h2>
+          <p id="modalDesc" style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.95rem;">Description...</p>
+        </div>
+        <div>
+          <a id="modalLink" href="https://www.natashumanska.com/" target="_blank" class="btn btn-primary" style="display: block; text-align: center; text-decoration: none;">View Official Website / Specs</a>
         </div>
       </div>
-
-      <!-- Pickup date -->
-      <div class="form-group">
-        <label class="form-label">Дата самовывоза *</label>
-        <div class="date-tabs" id="dateTabs"></div>
-      </div>
-
-      <!-- Pickup time -->
-      <div class="form-group">
-        <label class="form-label">Время самовывоза *</label>
-        <div class="time-slots" id="timeSlots"></div>
-        <div id="closedMsg" style="display:none;font-size:13px;color:#c0392b;margin-top:8px;">😔 В этот день пекарня не работает</div>
-      </div>
-
-      <!-- Comment -->
-      <div class="form-group">
-        <label class="form-label">Комментарий (необязательно)</label>
-        <input class="form-input" id="fieldComment" type="text" placeholder="Пожелания к заказу..." />
-      </div>
-
-      <button class="form-submit" onclick="submitOrder()">Отправить в WhatsApp 📱</button>
     </div>
   </div>
-</div>
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-top">
-    <div>
-      <div class="footer-logo">ŽITO<span>řemeslná pekárna · Praha</span></div>
-    </div>
-    <div class="footer-policies">
-      <button class="policy-btn" onclick="openModal('privacy')">Политика конфиденциальности</button>
-      <button class="policy-btn" onclick="openModal('terms')">Условия использования</button>
-      <button class="policy-btn" onclick="openModal('cookies')">Политика cookies</button>
-      <button class="policy-btn" onclick="openModal('refund')">Возврат и обмен</button>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <p class="footer-copy">© 2025 ŽITO řemeslná pekárna. Blanická 772/6, Praha 2 — Vinohrady.</p>
-    <p class="footer-credit">Designed by <a href="#">Shumanskii Andrei</a></p>
-  </div>
-</footer>
+  <script>
+    // DEMO DATA (3 Collections)
+    const equipmentData = [
+      {
+        category: "Thermal",
+        collectionName: "Thermal & Cooking Innovation 2026",
+        items: [
+          { id: 1, title: "Rational iCombi Pro 6-Grid", category: "Thermal", image: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=800&q=80", desc: "Next-gen combi steamer with AI-driven climate management, reducing energy consumption by 28% while maintaining high output precision." },
+          { id: 2, title: "Induction Range Quad-Zone", category: "Thermal", image: "https://images.unsplash.com/photo-1588854337236-6889d631faa8?auto=format&fit=crop&w=800&q=80", desc: "Heavy-duty modular induction cooktop designed for rapid heating and minimal ambient thermal dissipation in compact kitchens." },
+          { id: 3, title: "Josper Charcoal Oven HJC", category: "Thermal", image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80", desc: "Premium enclosed charcoal grill offering authentic smoky flavor profiles with precise airflow control." }
+        ]
+      },
+      {
+        category: "Refrigeration",
+        collectionName: "Precision Refrigeration & Cold Chain",
+        items: [
+          { id: 4, title: "Blast Chiller Touch-Pro 5", category: "Refrigeration", image: "https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?auto=format&fit=crop&w=800&q=80", desc: "Ultra-fast blast freezer capable of bringing core temperature from +90°C to +3°C in under 90 minutes to preserve food texture." },
+          { id: 5, title: "Under-Counter Bar Cooler 3D", category: "Refrigeration", image: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=800&q=80", desc: "Triple-glazed LED backbar refrigeration with eco-friendly R290 refrigerant and whisper-quiet compressor." }
+        ]
+      },
+      {
+        category: "Uniforms",
+        collectionName: "Modern Staff Apparel & Aprons",
+        items: [
+          { id: 6, title: "Minimalist Linen Chef Jacket", category: "Uniforms", image: "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&w=800&q=80", desc: "Breathable organic linen blend jacket with hidden magnetic snap closures and moisture-wicking back panels." },
+          { id: 7, title: "Canvas & Leather Service Apron", category: "Uniforms", image: "https://images.unsplash.com/photo-1583394293214-28ded15ee548?auto=format&fit=crop&w=800&q=80", desc: "Durable water-resistant canvas apron featuring genuine leather adjustable cross-back straps for ergonomic weight distribution." }
+        ]
+      }
+    ];
 
-<!-- MODALS -->
-<div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal()">×</button>
-    <h3 id="modalTitle"></h3>
-    <p id="modalBody"></p>
-  </div>
-</div>
+    let currentFilter = 'all';
 
-<script>
-// ── GOOGLE SHEETS CONFIG ──────────────────────────────────────
-const SHEET_ID = '1luQjROxkmwoX5zTCyOtpAdA_rL5tO0P3GV1U7ibxfCU';
-const API_BASE = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=`;
-
-async function fetchSheet(sheetName) {
-  const res = await fetch(API_BASE + encodeURIComponent(sheetName));
-  const text = await res.text();
-  const json = JSON.parse(text.replace(/^[^(]+\(/, '').replace(/\);?\s*$/, ''));
-  const cols = json.table.cols.map(c => c.label);
-  return json.table.rows.map(row => {
-    const obj = {};
-    row.c.forEach((cell, i) => {
-      obj[cols[i]] = cell ? (cell.v !== null && cell.v !== undefined ? cell.v : '') : '';
-    });
-    return obj;
-  });
-}
-
-// ── LOAD ALL DATA ─────────────────────────────────────────────
-let menu = [];
-const cart = {};
-
-async function loadAllData() {
-  try {
-    // Show loading state
-    document.getElementById('menuContainer').innerHTML = '<p style="text-align:center;padding:40px;color:var(--muted);">🌾 Загружаем меню...</p>';
-
-    const [menuRows, settingsRows, galleryRows] = await Promise.all([
-      fetchSheet('menu'),
-      fetchSheet('settings'),
-      fetchSheet('gallery'),
-    ]);
-
-    // Parse menu
-    menu = menuRows
-      .filter(r => r.id && r.name && String(r.active).toUpperCase() !== 'FALSE')
-      .map(r => ({
-        id: Number(r.id),
-        cat: r.cat || '',
-        name: r.name || '',
-        desc: r.desc || '',
-        price: Number(r.price) || 0,
-        img: r.img || '',
-        active: true,
-      }));
-
-    // Parse settings
-    const settings = {};
-    settingsRows.forEach(r => { if (r.key) settings[r.key] = r.value; });
-
-    // Hero image
-    if (settings.hero_img) {
-      document.getElementById('heroImg').src = settings.hero_img;
+    // NAVIGATION
+    function showView(viewName) {
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      if(viewName === 'landing') document.getElementById('landing-view').classList.add('active');
+      if(viewName === 'dashboard') {
+        document.getElementById('dashboard-view').classList.add('active');
+        renderCollections();
+      }
     }
 
-    // Hours
-    const hoursMap = {
-      1: { open: settings.hours_mon_open||'07:00', close: settings.hours_mon_close||'19:00', closed: settings.hours_mon_closed==='TRUE' },
-      2: { open: settings.hours_tue_open||'07:00', close: settings.hours_tue_close||'19:00', closed: settings.hours_tue_closed==='TRUE' },
-      3: { open: settings.hours_wed_open||'07:00', close: settings.hours_wed_close||'19:00', closed: settings.hours_wed_closed==='TRUE' },
-      4: { open: settings.hours_thu_open||'07:00', close: settings.hours_thu_close||'19:00', closed: settings.hours_thu_closed==='TRUE' },
-      5: { open: settings.hours_fri_open||'07:00', close: settings.hours_fri_close||'19:00', closed: settings.hours_fri_closed==='TRUE' },
-      6: { open: settings.hours_sat_open||'08:00', close: settings.hours_sat_close||'18:00', closed: settings.hours_sat_closed==='TRUE' },
-      0: { open: settings.hours_sun_open||'09:00', close: settings.hours_sun_close||'15:00', closed: settings.hours_sun_closed==='TRUE' },
-    };
-    window._hoursFromSheets = hoursMap;
-
-    // Gallery — строка с order=0 это hero фото, остальные — карусель
-    const heroRow = galleryRows.find(r => Number(r.order) === 0);
-    if (heroRow && heroRow.img) {
-      document.getElementById('heroImg').src = heroRow.img;
+    // LOGIN LOGIC (Code 555)
+    function openLoginModal() {
+      document.getElementById('loginModal').style.display = 'flex';
     }
-    const slides = galleryRows
-      .filter(r => r.img && Number(r.order) !== 0)
-      .sort((a,b) => Number(a.order) - Number(b.order))
-      .map(r => ({ img: r.img, title: r.title||'', caption: r.caption||'' }));
-    window._slidesFromSheets = slides.length ? slides : null;
 
-    // Build everything
-    buildMenu();
-    buildCarousel();
-    renderHoursDisplay();
+    function checkCode() {
+      const input = document.getElementById('passCodeInput').value;
+      if(input === '555') {
+        document.getElementById('loginModal').style.display = 'none';
+        document.getElementById('auth-status').innerHTML = `
+          <span style="font-size:0.85rem; color: var(--accent); font-weight:600; margin-right:1rem;">• VIP Access Active</span>
+          <button class="btn btn-outline" onclick="logout()">Logout</button>
+        `;
+        showView('dashboard');
+      } else {
+        document.getElementById('loginError').style.display = 'block';
+      }
+    }
 
-  } catch(e) {
-    console.error('Ошибка загрузки данных:', e);
-    // Fallback to defaults
-    menu = defaultMenu.filter(i => i.active !== false);
-    buildMenu();
-    buildCarousel();
-    renderHoursDisplay();
-  }
-}
+    function logout() {
+      document.getElementById('auth-status').innerHTML = `
+        <button class="btn btn-outline" onclick="openLoginModal()">Login (Access Code)</button>
+      `;
+      showView('landing');
+    }
 
-function getHours() {
-  return window._hoursFromSheets || defaultHours;
-}
+    // RENDER CAROUSELS
+    function renderCollections() {
+      const container = document.getElementById('collectionsContainer');
+      const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+      container.innerHTML = '';
 
-// ── DEFAULT FALLBACK DATA ─────────────────────────────────────
-const defaultMenu = [
-  { cat: "Хлеб на закваске", id:1, name:"Квасковый хлеб классический", desc:"Пшеничная закваска, каменная соль", price:89, img:"https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&q=70", active:true },
-  { cat: "Хлеб на закваске", id:2, name:"Ржано-пшеничный хлеб", desc:"40% ржи, 60% пшеницы, тмин", price:95, img:"https://images.unsplash.com/photo-1549931319-a545dcf3bc7c?w=400&q=70", active:true },
-  { cat: "Хлеб на закваске", id:3, name:"Хлеб с семечками", desc:"Подсолнух, кунжут, тыква", price:105, img:"https://images.unsplash.com/photo-1586444248902-2f64eddc13df?w=400&q=70", active:true },
-  { cat: "Хлеб на закваске", id:4, name:"Цельнозерновой хлеб", desc:"Каменного помола, богат клетчаткой", price:110, img:"https://images.unsplash.com/photo-1534620808146-d33bb39128b2?w=400&q=70", active:true },
-  { cat: "Пирожки", id:5, name:"Пирожок с мясом", desc:"Говядина, лук, перец — по-домашнему", price:65, img:"https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=400&q=70", active:true },
-  { cat: "Пирожки", id:6, name:"Пирожок с капустой и яйцом", desc:"Тушёная капуста, варёное яйцо", price:60, img:"https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=70", active:true },
-  { cat: "Пирожки", id:7, name:"Пирожок с фаршем", desc:"Свинина + говядина, зелень", price:65, img:"https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&q=70", active:true },
-  { cat: "Пирожки", id:8, name:"Пирожок с картофелем", desc:"Пюре с маслом и зелёным луком", price:55, img:"https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=400&q=70", active:true },
-  { cat: "Сдоба и синабоны", id:9, name:"Синабон классический", desc:"Тесто на закваске, корица, крем-чиз", price:85, img:"https://images.unsplash.com/photo-1564217135988-40a052b3b43c?w=400&q=70", active:true },
-  { cat: "Сдоба и синабоны", id:10, name:"Синабон с орехами", desc:"Пекан, карамель, ваниль", price:95, img:"https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=400&q=70", active:true },
-  { cat: "Сдоба и синабоны", id:11, name:"Плюшка с маком", desc:"Квасковое тесто, маковая начинка, глазурь", price:70, img:"https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400&q=70", active:true },
-  { cat: "Сдоба и синабоны", id:12, name:"Булочка с изюмом", desc:"Мягкое тесто, ванильная нотка", price:60, img:"https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&q=70", active:true },
-  { cat: "Багеты и сэндвичи", id:13, name:"Квасковый багет", desc:"Хрустящая корочка, воздушный мякиш", price:75, img:"https://images.unsplash.com/photo-1567861911437-538298e4232c?w=400&q=70", active:true },
-  { cat: "Багеты и сэндвичи", id:14, name:"Багет с травами", desc:"Розмарин, тимьян, оливковое масло", price:85, img:"https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400&q=70", active:true },
-  { cat: "Багеты и сэндвичи", id:15, name:"Сэндвич с ветчиной и сыром", desc:"Домашний майонез, свежие овощи", price:120, img:"https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400&q=70", active:true },
-  { cat: "Багеты и сэндвичи", id:16, name:"Сэндвич с лососем", desc:"Крем-чиз, каперсы, укроп", price:145, img:"https://images.unsplash.com/photo-1553909489-cd47e0ef937f?w=400&q=70", active:true },
-  { cat: "Выпечка дня", id:17, name:"Фокачча с оливками", desc:"Итальянская классика на чешской закваске", price:95, img:"https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400&q=70", active:true },
-  { cat: "Выпечка дня", id:18, name:"Лепёшка с розмарином", desc:"Тонкая, хрустящая, ароматная", price:80, img:"https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=400&q=70", active:true },
-  { cat: "Выпечка дня", id:19, name:"Пита квасковая", desc:"Идеально для дипов и закусок", price:55, img:"https://images.unsplash.com/photo-1506459225024-1428097a7e18?w=400&q=70", active:true },
-  { cat: "Выпечка дня", id:20, name:"Круассан на закваске", desc:"Слоёный, маслянистый, несравнимый", price:90, img:"https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400&q=70", active:true },
-];
+      equipmentData.forEach(cat => {
+        if(currentFilter !== 'all' && cat.category !== currentFilter) return;
 
-function loadMenu() { return defaultMenu; }
+        const filteredItems = cat.items.filter(item => 
+          item.title.toLowerCase().includes(searchQuery) || 
+          item.desc.toLowerCase().includes(searchQuery)
+        );
 
+        if(filteredItems.length === 0) return;
 
+        const section = document.createElement('div');
+        section.className = 'collection-section';
 
-function buildMenu() {
-  const cats = [...new Set(menu.map(i => i.cat))];
-  const container = document.getElementById('menuContainer');
-  container.innerHTML = '';
-  cats.forEach(cat => {
-    const catDiv = document.createElement('div');
-    catDiv.style.marginBottom = '48px';
-    catDiv.innerHTML = `<h3 style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--dark-rye);margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border);">${cat}</h3>`;
-    const grid = document.createElement('div');
-    grid.className = 'menu-grid';
-    menu.filter(i => i.cat === cat).forEach(item => {
-      const card = document.createElement('div');
-      card.className = 'menu-card';
-      card.innerHTML = `
-        <img class="menu-card-img" src="${item.img}" alt="${item.name}" onerror="this.src='https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&q=70'"/>
-        <div class="menu-card-body">
-          <div class="menu-card-cat">${item.cat}</div>
-          <div class="menu-card-name">${item.name}</div>
-          <div class="menu-card-desc">${item.desc}</div>
-          <div class="menu-card-footer">
-            <div class="menu-card-price">${item.price} <span>Kč / шт.</span></div>
-            <div class="qty-control">
-              <button class="qty-btn" onclick="changeQty(${item.id},-1)">−</button>
-              <span class="qty-val" id="qty-${item.id}">0</span>
-              <button class="qty-btn" onclick="changeQty(${item.id},1)">+</button>
+        let itemsHTML = filteredItems.map(item => `
+          <div class="item-card" onclick="openProductModal(${item.id})">
+            <img src="${item.image}" alt="${item.title}">
+            <div class="item-card-body">
+              <div class="item-card-category">${item.category}</div>
+              <div class="item-card-title">${item.title}</div>
             </div>
           </div>
-        </div>`;
-      grid.appendChild(card);
-    });
-    catDiv.appendChild(grid);
-    container.appendChild(catDiv);
-  });
-}
+        `).join('');
 
-function changeQty(id, delta) {
-  const cur = cart[id] || 0;
-  const next = Math.max(0, cur + delta);
-  if (next === 0) delete cart[id]; else cart[id] = next;
-  document.getElementById('qty-' + id).textContent = next;
-  updateOrderBar();
-}
+        section.innerHTML = `
+          <div class="collection-title">${cat.collectionName}</div>
+          <div class="scroll-row">${itemsHTML}</div>
+        `;
 
-function updateOrderBar() {
-  const entries = Object.entries(cart);
-  const total = entries.reduce((s,[id,q]) => s + menu.find(i=>i.id==id).price * q, 0);
-  const count = entries.reduce((s,[,q]) => s + q, 0);
-  document.getElementById('orderCount').textContent = count + ' позиций';
-  document.getElementById('orderTotal').textContent = total.toLocaleString('cs-CZ') + ' Kč';
-  const bar = document.getElementById('orderBar');
-  count > 0 ? bar.classList.add('visible') : bar.classList.remove('visible');
-}
+        container.appendChild(section);
+      });
+    }
 
-// ── ORDER FORM ────────────────────────────────────────────────
-const DAYS_RU = ['Воскресенье','Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'];
-const DAYS_SHORT = ['вс','пн','вт','ср','чт','пт','сб'];
-const MONTHS_RU = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+    function setFilter(cat, btn) {
+      currentFilter = cat;
+      document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      renderCollections();
+    }
 
-// Default hours fallback
-const defaultHours = {
-  1: { open: '07:00', close: '19:00' },
-  2: { open: '07:00', close: '19:00' },
-  3: { open: '07:00', close: '19:00' },
-  4: { open: '07:00', close: '19:00' },
-  5: { open: '07:00', close: '19:00' },
-  6: { open: '08:00', close: '18:00' },
-  0: { open: '09:00', close: '15:00' },
-};
+    function filterItems() {
+      renderCollections();
+    }
 
-function timeToMins(t) { const [h,m] = t.split(':').map(Number); return h*60+m; }
+    // PRODUCT MODAL
+    function openProductModal(id) {
+      let foundItem = null;
+      equipmentData.forEach(c => {
+        c.items.forEach(i => { if(i.id === id) foundItem = i; });
+      });
 
-function buildTimeSlots(dateObj, isToday) {
-  const container = document.getElementById('timeSlots');
-  const closedMsg = document.getElementById('closedMsg');
-  container.innerHTML = '';
-  selectedTime = '';
+      if(foundItem) {
+        document.getElementById('modalImg').src = foundItem.image;
+        document.getElementById('modalCategory').innerText = foundItem.category;
+        document.getElementById('modalTitle').innerText = foundItem.title;
+        document.getElementById('modalDesc').innerText = foundItem.desc;
+        document.getElementById('productModal').style.display = 'flex';
+      }
+    }
 
-  const dow = dateObj.getDay();
-  const hours = getHours();
-  const dayH = hours[dow];
-
-  if (!dayH || dayH.closed) {
-    closedMsg.style.display = 'block';
-    container.style.display = 'none';
-    return;
-  }
-  closedMsg.style.display = 'none';
-  container.style.display = 'grid';
-
-  const openMins = timeToMins(dayH.open);
-  const closeMins = timeToMins(dayH.close);
-  const now = new Date();
-  const nowMins = isToday ? (now.getHours()*60 + now.getMinutes() + 45) : 0;
-
-  // Generate slots every 30 min within working hours
-  for (let m = openMins; m < closeMins; m += 30) {
-    const h = Math.floor(m/60);
-    const min = m%60;
-    const label = `${String(h).padStart(2,'0')}:${String(min).padStart(2,'0')}`;
-    const past = m < nowMins;
-    const btn = document.createElement('button');
-    btn.className = 'time-slot' + (past ? ' disabled' : '');
-    btn.textContent = label;
-    btn.type = 'button';
-    if (!past) btn.onclick = () => selectTime(label, btn);
-    container.appendChild(btn);
-  }
-}
-
-let selectedDate = null;
-let selectedTime = '';
-
-function buildDateTabs() {
-  const container = document.getElementById('dateTabs');
-  container.innerHTML = '';
-  const today = new Date();
-  const tomorrow = new Date(today); tomorrow.setDate(today.getDate()+1);
-  const dayAfter = new Date(today); dayAfter.setDate(today.getDate()+2);
-  const dates = [today, tomorrow, dayAfter];
-  const labels = ['Сегодня','Завтра','Послезавтра'];
-
-  dates.forEach((d, i) => {
-    const tab = document.createElement('div');
-    tab.className = 'date-tab' + (i===0 ? ' selected' : '');
-    tab.innerHTML = `
-      <div class="tab-day">${labels[i]}</div>
-      <div class="tab-date">${d.getDate()} ${MONTHS_RU[d.getMonth()]}</div>
-      <div class="tab-weekday">${DAYS_RU[d.getDay()]}</div>`;
-    tab.onclick = () => {
-      document.querySelectorAll('.date-tab').forEach(t => t.classList.remove('selected'));
-      tab.classList.add('selected');
-      selectedDate = d;
-      buildTimeSlots(d, i===0);
-    };
-    container.appendChild(tab);
-  });
-
-  selectedDate = today;
-  buildTimeSlots(today, true);
-}
-
-function selectTime(t, btn) {
-  selectedTime = t;
-  document.querySelectorAll('.time-slot').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-}
-
-function formatPhone(inp) {
-  let v = inp.value.replace(/\D/g,'');
-  if (v.length > 9) v = v.slice(0,9);
-  let fmt = '';
-  for (let i=0; i<v.length; i++) {
-    if (i===3||i===6) fmt += ' ';
-    fmt += v[i];
-  }
-  inp.value = fmt;
-}
-
-function openOrderForm() {
-  const entries = Object.entries(cart);
-  if (!entries.length) return;
-  const list = document.getElementById('formSummaryList');
-  let total = 0, html = '';
-  entries.forEach(([id,q]) => {
-    const item = menu.find(i=>i.id==id);
-    const sub = item.price * q;
-    total += sub;
-    html += `<div class="order-summary-item"><span>${item.name} × ${q}</span><span>${sub} Kč</span></div>`;
-  });
-  html += `<div class="order-summary-item"><span>Итого</span><span>${total} Kč</span></div>`;
-  list.innerHTML = html;
-  buildDateTabs();
-  selectedTime = '';
-  document.getElementById('orderFormOverlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeOrderForm() {
-  document.getElementById('orderFormOverlay').classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-function submitOrder() {
-  const name = document.getElementById('fieldName').value.trim();
-  const surname = document.getElementById('fieldSurname').value.trim();
-  const phone = document.getElementById('fieldPhone').value.replace(/\D/g,'');
-  const comment = document.getElementById('fieldComment').value.trim();
-
-  let valid = true;
-  ['fieldName','fieldSurname','fieldPhone'].forEach(id => {
-    document.getElementById(id).classList.remove('error');
-  });
-  if (!name) { document.getElementById('fieldName').classList.add('error'); valid = false; }
-  if (!surname) { document.getElementById('fieldSurname').classList.add('error'); valid = false; }
-  if (phone.length < 9) { document.getElementById('fieldPhone').classList.add('error'); valid = false; }
-  if (!selectedTime) { alert('Пожалуйста, выберите время самовывоза'); valid = false; }
-  if (!valid) return;
-
-  const d = selectedDate;
-  const dateStr = `${d.getDate()} ${MONTHS_RU[d.getMonth()]} (${DAYS_SHORT[d.getDay()]})`;
-
-  const entries = Object.entries(cart);
-  let msg = `🌾 *Заказ из ŽITO pekárna*\n\n`;
-  msg += `👤 *${name} ${surname}*\n`;
-  msg += `📞 +420 ${document.getElementById('fieldPhone').value}\n`;
-  msg += `📅 Дата: *${dateStr}*\n`;
-  msg += `⏰ Время: *${selectedTime}*\n\n`;
-  let total = 0;
-  entries.forEach(([id,q]) => {
-    const item = menu.find(i=>i.id==id);
-    msg += `• ${item.name} × ${q} = ${item.price*q} Kč\n`;
-    total += item.price * q;
-  });
-  msg += `\n💰 *Итого: ${total} Kč*`;
-  if (comment) msg += `\n\n💬 ${comment}`;
-  msg += '\n\nСпасибо! 🙏';
-
-  window.open('https://wa.me/420608507366?text=' + encodeURIComponent(msg), '_blank');
-  closeOrderForm();
-}
-
-// ── HERO & CAROUSEL from localStorage ────────────────────────
-const defaultHeroImg = 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=900&q=80';
-const defaultSlides = [
-  { img:'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=1200&q=80', title:'Квасковый хлеб', caption:'Хрустящая корочка, мягкий мякиш — выпечется за 3 дня' },
-  { img:'https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=1200&q=80', title:'Квасковые синабоны', caption:'Нежное тесто на закваске с корицей и карамельным кремом' },
-  { img:'https://images.unsplash.com/photo-1567861911437-538298e4232c?w=1200&q=80', title:'Пирожки ручной работы', caption:'С мясом, капустой и яйцом, фаршем — по бабушкиным рецептам' },
-  { img:'https://images.unsplash.com/photo-1549931319-a545dcf3bc7c?w=1200&q=80', title:'Квасковые багеты', caption:'Французская традиция на чешской закваске' },
-  { img:'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=1200&q=80', title:'Наш мастер', caption:'Пекарь с душой — каждая буханка создаётся вручную' },
-];
-
-function loadSitePhotos() {
-  // hero already set by loadAllData via heroImg src
-  return window._slidesFromSheets || defaultSlides;
-}
-
-function buildCarousel() {
-  const slides = loadSitePhotos();
-  const track = document.getElementById('carouselTrack');
-  track.innerHTML = '';
-  slides.forEach(s => {
-    const div = document.createElement('div');
-    div.className = 'carousel-slide';
-    div.innerHTML = `<img src="${s.img}" alt="${s.title}" /><div class="slide-caption"><h3>${s.title}</h3><p>${s.caption}</p></div>`;
-    track.appendChild(div);
-  });
-
-  // rebuild dots
-  const navEl = document.getElementById('carouselNav');
-  navEl.innerHTML = '';
-  let current = 0;
-  const allSlides = track.querySelectorAll('.carousel-slide');
-  allSlides.forEach((_, i) => {
-    const dot = document.createElement('button');
-    dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
-    dot.onclick = () => goTo(i);
-    navEl.appendChild(dot);
-  });
-
-  function goTo(idx) {
-    current = (idx + allSlides.length) % allSlides.length;
-    track.style.transform = `translateX(-${current * 100}%)`;
-    document.querySelectorAll('.carousel-dot').forEach((d,i) => d.classList.toggle('active', i===current));
-  }
-  document.getElementById('prevBtn').onclick = () => goTo(current - 1);
-  document.getElementById('nextBtn').onclick = () => goTo(current + 1);
-  if (window._carouselInterval) clearInterval(window._carouselInterval);
-  window._carouselInterval = setInterval(() => goTo(current + 1), 5000);
-}
-
-// ── MODALS ────────────────────────────────────────────────────
-const modalContent = {
-  privacy: { title: 'Политика конфиденциальности', body: 'Мы уважаем вашу конфиденциальность. Данные из заказов (имя, контакт) используются исключительно для обработки заказа и не передаются третьим лицам. Документ в разработке — полная версия появится в ближайшее время.' },
-  terms: { title: 'Условия использования', body: 'Используя данный сайт и оформляя заказ, вы соглашаетесь с нашими условиями. Заказы принимаются к обработке после подтверждения в WhatsApp. Полная версия условий в разработке.' },
-  cookies: { title: 'Политика cookies', body: 'Наш сайт использует минимальное количество технических cookies, необходимых для работы. Мы не используем сторонние трекеры. Полная политика в разработке.' },
-  refund: { title: 'Возврат и обмен', body: 'Поскольку мы производим продукты питания, возврат возможен только при обнаружении дефекта качества. Пожалуйста, свяжитесь с нами в WhatsApp в течение 24 часов после получения заказа.' },
-};
-function openModal(key) {
-  const m = modalContent[key];
-  document.getElementById('modalTitle').textContent = m.title;
-  document.getElementById('modalBody').textContent = m.body;
-  document.getElementById('modal').classList.add('open');
-}
-function closeModal() { document.getElementById('modal').classList.remove('open'); }
-
-function renderHoursDisplay() {
-  const hours = getHours();
-  const dayNames = {1:'Понедельник',2:'Вторник',3:'Среда',4:'Четверг',5:'Пятница',6:'Суббота',0:'Воскресенье'};
-  const order = [1,2,3,4,5,6,0];
-  let html = '';
-  // Group consecutive days with same hours
-  let groups = [];
-  let cur = null;
-  order.forEach(dow => {
-    const h = hours[dow];
-    const val = h && !h.closed ? `${h.open} — ${h.close}` : 'Закрыто';
-    if (cur && cur.val === val) { cur.days.push(dow); }
-    else { cur = {days:[dow], val}; groups.push(cur); }
-  });
-  groups.forEach(g => {
-    const names = g.days.map(d => d===1||d===2||d===3||d===4||d===5 ? ['Пн','Вт','Ср','Чт','Пт'][d-1] : d===6?'Сб':'Вс');
-    const label = names.length > 1 ? `${names[0]} — ${names[names.length-1]}` : names[0];
-    html += `<span class="day">${label}</span><span class="time">${g.val}</span>`;
-  });
-  const el = document.getElementById('hoursDisplay');
-  if (el) el.innerHTML = html;
-}
-
-buildMenu();
-buildCarousel();
-renderHoursDisplay();
-// Load from Google Sheets (overwrites defaults)
-loadAllData();
-</script>
+    function closeProductModal() {
+      document.getElementById('productModal').style.display = 'none';
+    }
+  </script>
 </body>
 </html>
