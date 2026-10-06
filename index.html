@@ -3,174 +3,310 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Наташа и Андрей Шуманские | Ресторанный консалтинг</title>
+  <title>Наташа и Андрей Шуманские | Гастро-консалтинг</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #FBF9F5; color: #1C201E; }
-    .bg-cream { background-color: #FBF9F5; }
-    .bg-card { background-color: #F3EFEA; }
-    .brand-green { background-color: #1F2E2B; }
-    .text-brand-green { color: #1F2E2B; }
-    .border-brand { border-color: #1F2E2B; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #FAF8F5; color: #181A18; }
+    .bg-cream { background-color: #FAF8F5; }
+    .bg-card { background-color: #F2EDE6; }
+    .brand-green { background-color: #1A2825; }
+    .text-brand-green { color: #1A2825; }
+    
+    /* Infinite Marquee Animation for Logos */
+    @keyframes marquee {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-marquee {
+      display: flex;
+      width: 200%;
+      animation: marquee 25s linear infinite;
+    }
+    .animate-marquee:hover { animation-play-state: paused; }
   </style>
 </head>
 <body class="antialiased">
 
-  <!-- TOP ANNOUNCEMENT BAR -->
+  <!-- TOP BAR -->
   <div class="brand-green text-white text-xs sm:text-sm py-2.5 px-4 text-center font-medium">
-    🟢 <strong>Живые онлайн-сессии каждую неделю:</strong> Среда (для работающих) · Четверг (для открытия)
+    🟢 <strong>Живое общение каждую неделю:</strong> Среда (Управление) · Четверг (Открытие)
   </div>
 
   <!-- HEADER -->
   <header class="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
-    <div class="text-lg font-bold tracking-tight text-brand-green">
-      ШУМАНСКИЕ <span class="font-normal text-sm opacity-75">| Гастро-консалтинг</span>
+    <div class="text-xl font-extrabold tracking-tight text-brand-green">
+      ШУМАНСКИЕ <span class="font-normal text-xs uppercase tracking-widest opacity-60 ml-2">| Гастро-консалтинг</span>
     </div>
-    <a href="#call-form" class="brand-green text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:opacity-90 transition">
+    <a href="#call-form" class="brand-green text-white text-sm font-semibold px-6 py-3 rounded-full hover:opacity-90 transition shadow-sm">
       Записаться на созвон
     </a>
   </header>
 
-  <!-- BLOCK 1: HERO SECTION -->
-  <section class="max-w-7xl mx-auto px-6 py-12 md:py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+  <!-- BLOCK 1: HERO SECTION WITH REAL PHOTO -->
+  <section class="max-w-7xl mx-auto px-6 py-8 md:py-16 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
     <div class="lg:col-span-7 space-y-6">
-      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-card text-xs font-semibold text-brand-green border border-black/5">
-        ✨ Пошаговое построение системы
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-card text-xs font-bold text-brand-green border border-black/5">
+        ✨ Пошаговая система без хаоса и «пожаров»
       </div>
-      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-brand-green leading-[1.15]">
-        Системный ресторанный и гостиничный бизнес без хаоса и «пожаров»
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-brand-green leading-[1.12]">
+        Системный ресторанный и гостиничный бизнес
       </h1>
       <p class="text-lg text-gray-700 leading-relaxed max-w-2xl">
-        Построите автономную систему управления, которая стабильно увеличивает прибыль и высвобождает ваше время для того лайфстайла, который вы любите и который делает вас счастливым.
+        Построите автономную систему управления, которая приносит стабильную прибыль и высвобождает ваше время для того лайфстайла, который вы любите и который делает вас счастливым.
       </p>
-      <div class="pt-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-        <a href="#call-form" class="brand-green text-white text-center text-base font-semibold px-8 py-4 rounded-full shadow-lg hover:opacity-95 transition">
+      <div class="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+        <a href="#call-form" class="brand-green text-white text-center text-base font-bold px-8 py-4 rounded-full shadow-lg hover:opacity-95 transition">
           Забронировать 15-мин созвон
         </a>
-        <a href="#solutions" class="bg-card text-brand-green text-center text-base font-semibold px-8 py-4 rounded-full border border-black/5 hover:bg-black/5 transition">
+        <a href="#formats" class="bg-card text-brand-green text-center text-base font-semibold px-8 py-4 rounded-full border border-black/5 hover:bg-black/5 transition">
           Выбрать решение
         </a>
       </div>
       <p class="text-xs text-gray-500 pt-1">
-        🔒 Лично разберем ваш кейс, ответим на вопросы и предложим пошаговый план.
+        🔒 Лично разберем ваше заведение, ответим на вопросы и предложим пошаговый план.
       </p>
     </div>
-    
+
+    <!-- Real Photo Frame with Interactive Badge -->
     <div class="lg:col-span-5 relative">
-      <div class="bg-card rounded-3xl p-4 border border-black/5 shadow-sm">
-        <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=800&q=80" alt="Наташа и Андрей Шуманские" class="rounded-2xl object-cover w-full h-[420px]" />
-        <div class="mt-4 p-3 bg-white rounded-xl shadow-sm border border-black/5 flex items-center justify-between">
-          <div>
-            <p class="text-sm font-bold text-brand-green">Наташа и Андрей Шуманские</p>
-            <p class="text-xs text-gray-500">20+ лет в гастро-бизнесе · Европа и СНГ</p>
+      <div class="bg-card rounded-3xl p-3 border border-black/5 shadow-md relative overflow-hidden">
+        <!-- URL вашего фото из чата -->
+        <img src="https://i.ibb.co/L849p4Y/36.jpg" alt="Наташа и Андрей Шуманские" class="rounded-2xl object-cover w-full h-[440px] shadow-inner" />
+        
+        <!-- Interactive Floating Badge -->
+        <div class="absolute bottom-6 left-6 right-6 bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-white/20 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <span class="relative flex h-3 w-3">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+            </span>
+            <div>
+              <p class="text-xs font-bold text-brand-green">Ближайший живой разбор</p>
+              <p class="text-[11px] text-gray-500">Среда · 11:00 (Прага)</p>
+            </div>
           </div>
-          <span class="text-xs bg-emerald-100 text-emerald-800 font-medium px-2.5 py-1 rounded-full">Практики</span>
+          <span class="text-[11px] bg-emerald-100 text-emerald-800 font-bold px-2.5 py-1 rounded-full">Zoom</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- BLOCK 2: SOCIAL PROOF NUMBERS -->
-  <section class="border-y border-black/10 py-10 bg-white/50">
-    <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-      <div>
-        <p class="text-3xl sm:text-4xl font-bold text-brand-green">20+ лет</p>
-        <p class="text-xs sm:text-sm text-gray-600 mt-1">Опыта управления и запуска</p>
+  <!-- BLOCK 2: COMPACT STATS + MARQUEE LOGO BELT (AceUp Style) -->
+  <section class="border-y border-black/10 py-8 bg-white/60 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6 mb-6 flex flex-wrap items-center justify-between gap-6 text-sm">
+      <div class="flex items-center gap-8 text-brand-green font-bold">
+        <span><strong class="text-2xl font-extrabold">20+</strong> лет опыта</span>
+        <span><strong class="text-2xl font-extrabold">220+</strong> проектов</span>
+        <span><strong class="text-2xl font-extrabold">18</strong> стран</span>
+        <span><strong class="text-2xl font-extrabold">7+</strong> лет в ЕС</span>
       </div>
-      <div>
-        <p class="text-3xl sm:text-4xl font-bold text-brand-green">220+</p>
-        <p class="text-xs sm:text-sm text-gray-600 mt-1">Успешных проектов и консультаций</p>
-      </div>
-      <div>
-        <p class="text-3xl sm:text-4xl font-bold text-brand-green">18 стран</p>
-        <p class="text-xs sm:text-sm text-gray-600 mt-1">География наших клиентов</p>
-      </div>
-      <div>
-        <p class="text-3xl sm:text-4xl font-bold text-brand-green">7+ лет</p>
-        <p class="text-xs sm:text-sm text-gray-600 mt-1">Практики и консалтинга в ЕС</p>
+      <p class="text-xs text-gray-500 font-medium">Нам доверяют заведения по всему миру ➔</p>
+    </div>
+
+    <!-- Scrolling Logos Belt -->
+    <div class="relative w-full overflow-hidden opacity-70">
+      <div class="animate-marquee flex items-center gap-12 text-sm font-bold tracking-wider text-gray-500 uppercase">
+        <span>Café Praha</span> • <span>Bistro Barcelona</span> • <span>Boutique Hotel Alps</span> • <span>Dark Kitchen Berlin</span> • <span>Gastro Bar Warsaw</span> • <span>Art Bakery Vienna</span> •
+        <span>Café Praha</span> • <span>Bistro Barcelona</span> • <span>Boutique Hotel Alps</span> • <span>Dark Kitchen Berlin</span> • <span>Gastro Bar Warsaw</span> • <span>Art Bakery Vienna</span> •
       </div>
     </div>
   </section>
 
-  <!-- BLOCK 3: REAL CASES & REVIEWS (VISUAL GRID) -->
-  <section class="max-w-7xl mx-auto px-6 py-20">
-    <div class="text-center max-w-3xl mx-auto mb-14">
-      <h2 class="text-3xl sm:text-4xl font-bold text-brand-green">Реальные заведения и результаты наших клиентов</h2>
-      <p class="text-gray-600 mt-3">От камерных кофеен и семейных пекарен в Праге до крупных ресторанов и отелей в 18 странах</p>
+  <!-- BLOCK 3: REAL CASES & RESTAURANTEURS REVIEWS -->
+  <section class="max-w-7xl mx-auto px-6 py-16">
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <h2 class="text-3xl font-extrabold text-brand-green">Результаты и отзывы рестораторов</h2>
+      <p class="text-gray-600 mt-2 text-sm">Настоящие истории владельцев, которые избавились от операционного хаоса</p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <!-- Case 1 -->
-      <div class="bg-card rounded-2xl overflow-hidden border border-black/5 p-5 space-y-4">
-        <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=600&q=80" class="rounded-xl h-48 w-full object-cover" alt="Кафе Прага">
-        <span class="text-xs font-semibold bg-white text-brand-green px-3 py-1 rounded-full">Ресторан & Кафе · Прага</span>
-        <h3 class="text-lg font-bold text-brand-green">Рост чистой прибыли на +35% за 3 месяца</h3>
-        <p class="text-sm text-gray-600">«Вдрили системы учета, пересмотрели ТТК и провели аудит входной группы. Выручка выросла без увеличения расходов на рекламу.»</p>
+      <!-- Review Card 1 -->
+      <div class="bg-card rounded-3xl p-6 border border-black/5 space-y-4 flex flex-col justify-between">
+        <div class="space-y-3">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-full bg-stone-300 overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover" alt="Екатерина">
+            </div>
+            <div>
+              <p class="text-sm font-bold text-brand-green">Екатерина С.</p>
+              <p class="text-xs text-gray-500">Владелица кафе · Прага</p>
+            </div>
+          </div>
+          <p class="text-sm text-gray-700 italic">«Самое главное — что Наташа и Андрей не просто дают сухую теорию, а объясняют логику мышления и дают реальные бланки, которые сэкономили нам тысячи евро.»</p>
+        </div>
+        <div class="pt-3 border-t border-black/5 flex items-center justify-between text-xs font-bold text-emerald-800">
+          <span>Результат:</span>
+          <span class="bg-emerald-100 px-2.5 py-1 rounded-full">+35% к чистой прибыли</span>
+        </div>
       </div>
-      <!-- Case 2 -->
-      <div class="bg-card rounded-2xl overflow-hidden border border-black/5 p-5 space-y-4">
-        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80" class="rounded-xl h-48 w-full object-cover" alt="Открытие заведения">
-        <span class="text-xs font-semibold bg-white text-brand-green px-3 py-1 rounded-full">Открытие с 0 · Испания</span>
-        <h3 class="text-lg font-bold text-brand-green">Запуск за 60 дней без лишних трат</h3>
-        <p class="text-sm text-gray-600">«Прошли путь от анализа локации и концепции до посадки первых гостей. Избавились от хаоса еще до открытия двери.»</p>
+
+      <!-- Review Card 2 -->
+      <div class="bg-card rounded-3xl p-6 border border-black/5 space-y-4 flex flex-col justify-between">
+        <div class="space-y-3">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-full bg-stone-300 overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover" alt="Михаил">
+            </div>
+            <div>
+              <p class="text-sm font-bold text-brand-green">Михаил К.</p>
+              <p class="text-xs text-gray-500">Ресторатор · Испания</p>
+            </div>
+          </div>
+          <p class="text-sm text-gray-700 italic">«Открыли ресторан за 60 дней строго по чек-листу. Избежали кучи ошибок с локацией и закупкой оборудования. Живые четверги — это топовая поддержка!»</p>
+        </div>
+        <div class="pt-3 border-t border-black/5 flex items-center justify-between text-xs font-bold text-emerald-800">
+          <span>Результат:</span>
+          <span class="bg-emerald-100 px-2.5 py-1 rounded-full">Открытие точно в срок</span>
+        </div>
       </div>
-      <!-- Case 3 -->
-      <div class="bg-card rounded-2xl overflow-hidden border border-black/5 p-5 space-y-4">
-        <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=600&q=80" class="rounded-xl h-48 w-full object-cover" alt="Гостиничный комплекс">
-        <span class="text-xs font-semibold bg-white text-brand-green px-3 py-1 rounded-full">Отель & Бутик-отель</span>
-        <h3 class="text-lg font-bold text-brand-green">Оптимизация ФОТ и настройка автономности</h3>
-        <p class="text-sm text-gray-600">«Собственник наконец-то уехал в отпуск на месяц. Команда работает строго по регламентам и стандартам.»</p>
+
+      <!-- Review Card 3 -->
+      <div class="bg-card rounded-3xl p-6 border border-black/5 space-y-4 flex flex-col justify-between">
+        <div class="space-y-3">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-full bg-stone-300 overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover" alt="Ольга">
+            </div>
+            <div>
+              <p class="text-sm font-bold text-brand-green">Ольга В.</p>
+              <p class="text-xs text-gray-500">Отель & Бутик-комплекс</p>
+            </div>
+          </div>
+          <p class="text-sm text-gray-700 italic">«Навели порядок в ФОТ и стандартизировали команду. Я впервые за 3 года смогла уехать в полноценный отпуск на месяц — всё работает без меня.»</p>
+        </div>
+        <div class="pt-3 border-t border-black/5 flex items-center justify-between text-xs font-bold text-emerald-800">
+          <span>Результат:</span>
+          <span class="bg-emerald-100 px-2.5 py-1 rounded-full">Автономность бизнеса</span>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- BLOCK 4: MANIFEST (HUMAN EXPERTISE VS CHATGPT) -->
+  <!-- BLOCK 4: HOW IT WORKS (ACEUP CARDS STYLE) -->
   <section class="max-w-7xl mx-auto px-6 py-16">
-    <div class="brand-green text-white rounded-3xl p-8 sm:p-12 relative overflow-hidden">
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <h2 class="text-3xl font-extrabold text-brand-green">Как устроена наша экосистема</h2>
+      <p class="text-gray-600 mt-2 text-sm">Гибридный формат: живое человеческое сопровождение + готовые инструменты</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Card 1 -->
+      <div class="bg-white rounded-3xl p-6 border border-black/5 shadow-sm space-y-4">
+        <div class="h-44 rounded-2xl bg-gradient-to-br from-cyan-100 to-emerald-100 p-4 flex flex-col justify-between relative overflow-hidden">
+          <span class="text-xs font-bold bg-white/80 px-3 py-1 rounded-full w-max text-brand-green">Human Touch</span>
+          <div class="bg-white p-3 rounded-xl shadow-md border border-black/5 text-xs space-y-1">
+            <p class="font-bold text-brand-green">💻 Zoom-разбор по средам</p>
+            <p class="text-gray-500">Прямой эфир с Наташей и Андреем</p>
+          </div>
+        </div>
+        <h3 class="text-xl font-bold text-brand-green">Во время сессий</h3>
+        <p class="text-sm text-gray-600">Разбираем ваши текущие задачи, проверяем гипотезы и даем ответы на сложные вопросы в прямом эфире каждый четверг и среду.</p>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="bg-white rounded-3xl p-6 border border-black/5 shadow-sm space-y-4">
+        <div class="h-44 rounded-2xl bg-gradient-to-br from-emerald-100 to-amber-100 p-4 flex flex-col justify-between relative overflow-hidden">
+          <span class="text-xs font-bold bg-white/80 px-3 py-1 rounded-full w-max text-brand-green">Практика</span>
+          <div class="bg-white p-3 rounded-xl shadow-md border border-black/5 text-xs space-y-1">
+            <p class="font-bold text-brand-green">📋 Домашние задания и подкасты</p>
+            <p class="text-gray-500">Внедрение изменений шаг за шагом</p>
+          </div>
+        </div>
+        <h3 class="text-xl font-bold text-brand-green">Между сессиями</h3>
+        <p class="text-sm text-gray-600">Короткие уроки, задания и поддержка в закрытой группе, чтобы вы планомерно двигались к результату без перегруза.</p>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="bg-white rounded-3xl p-6 border border-black/5 shadow-sm space-y-4">
+        <div class="h-44 rounded-2xl bg-gradient-to-br from-purple-100 to-emerald-100 p-4 flex flex-col justify-between relative overflow-hidden">
+          <span class="text-xs font-bold bg-white/80 px-3 py-1 rounded-full w-max text-brand-green">База Знаний</span>
+          <div class="bg-white p-3 rounded-xl shadow-md border border-black/5 text-xs space-y-1">
+            <p class="font-bold text-brand-green">📁 ТТК, Бланки, Регламенты</p>
+            <p class="text-gray-500">Готовы к внедрению за 1 день</p>
+          </div>
+        </div>
+        <h3 class="text-xl font-bold text-brand-green">Без сессий</h3>
+        <p class="text-sm text-gray-600">Мгновенный доступ к библиотеке файлов, стандартам сервиса и финмоделям OPIU/ODDS для вашего заведения.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOCK 5: MANIFEST (STYLISH HUMAN EXPERIENCE VS AI) -->
+  <section class="max-w-7xl mx-auto px-6 py-12">
+    <div class="brand-green text-white rounded-3xl p-8 sm:p-12 relative overflow-hidden shadow-xl">
       <div class="max-w-3xl space-y-6 relative z-10">
-        <span class="bg-white/10 text-emerald-300 text-xs font-semibold px-3.5 py-1.5 rounded-full uppercase tracking-wider">Наш манифест</span>
-        <h2 class="text-3xl sm:text-4xl font-bold leading-tight">
-          Вы никогда не получите этих решений от ChatGPT. Мы гарантируем это 100%.
+        <span class="bg-white/10 text-emerald-300 text-xs font-bold px-3.5 py-1.5 rounded-full uppercase tracking-widest">Почему это работает</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold leading-tight">
+          Уникальный личный опыт, который не сгенерирует ни один искусственный интеллект
         </h2>
         <p class="text-gray-300 text-base leading-relaxed">
-          ИИ учится на общедоступной базовой теории из интернета. Но нейросеть не стояла на кухне в Праге, не решала конфликты с европейской бюрократией, не искала воровство в баре и не вытаскивала заведения из убытков.
+          ИИ выдает поверхностную теорию из интернета. Но нейросеть не стояла на кухне, не решала проблемы с европейской бюрократией, не искала причину воровства в баре и не вытаскивала заведения из убытков.
         </p>
         <p class="text-gray-300 text-base leading-relaxed">
-          Все наши материалы, бланки, ТТК и алгоритмы основаны на <strong>личном 20-летнем опыте и живой практике в 18 странах</strong>.
+          Для этого нужна <strong>личная насмотренность, академическое образование и 20+ лет живой практики в 18 странах</strong>. Мы гарантируем, что все наши материалы основаны 100% на нашем опыте.
         </p>
       </div>
     </div>
   </section>
 
-  <!-- BLOCK 5: FORM / STRATEGIC CALL (MAIN CONVERTER) -->
-  <section id="call-form" class="max-w-3xl mx-auto px-6 py-20">
-    <div class="bg-white rounded-3xl p-8 sm:p-12 shadow-xl border border-black/5 space-y-6">
+  <!-- BLOCK 6: DEMO OF 1 WEEK INSIDE -->
+  <section class="max-w-7xl mx-auto px-6 py-16">
+    <div class="bg-card rounded-3xl p-8 sm:p-12 border border-black/5 space-y-8">
+      <div class="text-center max-w-2xl mx-auto space-y-2">
+        <span class="text-xs font-bold text-emerald-800 bg-emerald-100 px-3 py-1 rounded-full uppercase">Попробуйте изнутри</span>
+        <h2 class="text-3xl font-extrabold text-brand-green">Как выглядит 1 неделя сопровождения</h2>
+        <p class="text-sm text-gray-600">Посмотрите пример стандартного обучающего модуля нашего Клуба</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 bg-white p-6 rounded-2xl border border-black/5">
+        <div class="space-y-2 border-r border-black/5 pr-4">
+          <p class="text-xs font-bold text-emerald-700">1. ПОДКАСТ / УРОК (15 мин)</p>
+          <p class="text-sm font-bold text-brand-green">Аудит входной группы и работа с потоком гостей</p>
+          <p class="text-xs text-gray-500">Слушайте в удобное время в машине или на прогулке.</p>
+        </div>
+        <div class="space-y-2 border-r border-black/5 pr-4">
+          <p class="text-xs font-bold text-emerald-700">2. БЛАНК / РЕГЛАМЕНТ</p>
+          <p class="text-sm font-bold text-brand-green">Чек-лист проверки вывески и локации (.XLSX)</p>
+          <p class="text-xs text-gray-500">Готовый документ, который сразу отдается управляющему.</p>
+        </div>
+        <div class="space-y-2">
+          <p class="text-xs font-bold text-emerald-700">3. ЖИВОЙ ЗУМ-РАЗБОР</p>
+          <p class="text-sm font-bold text-brand-green">Разбор ответов участников и вопросов</p>
+          <p class="text-xs text-gray-500">Наташа и Андрей лично разбирают ваше заведение.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOCK 7: STRATEGIC CALL FORM (MAIN CONVERTER) -->
+  <section id="call-form" class="max-w-3xl mx-auto px-6 py-16">
+    <div class="bg-white rounded-3xl p-8 sm:p-12 shadow-2xl border border-black/5 space-y-6">
       <div class="text-center space-y-2">
-        <h2 class="text-2xl sm:text-3xl font-bold text-brand-green">Запишитесь на 15-минутный стратегический созвон</h2>
-        <p class="text-sm text-gray-600">Заполните короткую анкету, и мы выберем удобное время для личного Zoom-разбора вашего заведения.</p>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-green">Запишитесь на 15-минутный стратегический созвон</h2>
+        <p class="text-sm text-gray-600">Заполните короткую анкету, и мы выберем удобное время для личного разбора вашего заведения.</p>
       </div>
 
       <form class="space-y-4 pt-4">
         <div>
-          <label class="block text-xs font-semibold text-gray-700 mb-1">ИМЯ И ФАМИЛИЯ *</label>
-          <input type="text" placeholder="Например: Александр" class="w-full px-4 py-3 rounded-xl bg-card border border-black/5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-800">
+          <label class="block text-xs font-bold text-gray-700 mb-1">ИМЯ И ФАМИЛИЯ *</label>
+          <input type="text" placeholder="Александр" class="w-full px-4 py-3 rounded-xl bg-card border border-black/5 text-sm focus:outline-none">
         </div>
         
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label class="block text-xs font-semibold text-gray-700 mb-1">EMAIL / TELEGRAM *</label>
-            <input type="text" placeholder="@username или email" class="w-full px-4 py-3 rounded-xl bg-card border border-black/5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-800">
+            <label class="block text-xs font-bold text-gray-700 mb-1">EMAIL / TELEGRAM *</label>
+            <input type="text" placeholder="@username или email" class="w-full px-4 py-3 rounded-xl bg-card border border-black/5 text-sm focus:outline-none">
           </div>
           <div>
-            <label class="block text-xs font-semibold text-gray-700 mb-1">ССЫЛКА НА ЗАВЕДЕНИЕ / ИНСТАГРАМ</label>
-            <input type="text" placeholder="instagram.com/... или сайт" class="w-full px-4 py-3 rounded-xl bg-card border border-black/5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-800">
+            <label class="block text-xs font-bold text-gray-700 mb-1">ССЫЛКА НА ЗАВЕДЕНИЕ / ИНСТАГРАМ</label>
+            <input type="text" placeholder="instagram.com/... или «Ещё планирую»" class="w-full px-4 py-3 rounded-xl bg-card border border-black/5 text-sm focus:outline-none">
           </div>
         </div>
 
         <div>
-          <label class="block text-xs font-semibold text-gray-700 mb-1">ПЛАНИРУЕМЫЙ БЮДЖЕТ НА КОНСАЛТИНГ / РАЗВИТИЕ *</label>
-          <select class="w-full px-4 py-3 rounded-xl bg-card border border-black/5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-800">
+          <label class="block text-xs font-bold text-gray-700 mb-1">ПЛАНИРУЕМЫЙ БЮДЖЕТ НА КОНСАЛТИНГ / РАЗВИТИЕ *</label>
+          <select class="w-full px-4 py-3 rounded-xl bg-card border border-black/5 text-sm focus:outline-none">
             <option>До 500 €</option>
             <option>500 € – 1 500 €</option>
             <option>1 500 € – 3 000 €</option>
@@ -179,8 +315,8 @@
         </div>
 
         <div>
-          <label class="block text-xs font-semibold text-gray-700 mb-1">ВАШ ГЛАВНЫЙ ВОПРОС ИЛИ СИТУАЦИЯ</label>
-          <textarea rows="3" placeholder="Опишите коротко ваш запрос..." class="w-full px-4 py-3 rounded-xl bg-card border border-black/5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-800"></textarea>
+          <label class="block text-xs font-bold text-gray-700 mb-1">ВАШ ГЛАВНЫЙ ВОПРОС ИЛИ СИТУАЦИЯ</label>
+          <textarea rows="3" placeholder="Опишите коротко ваш запрос..." class="w-full px-4 py-3 rounded-xl bg-card border border-black/5 text-sm focus:outline-none"></textarea>
         </div>
 
         <button type="button" class="w-full brand-green text-white font-bold py-4 rounded-xl shadow-lg hover:opacity-95 transition text-base">
